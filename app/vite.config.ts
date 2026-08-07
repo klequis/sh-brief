@@ -3,6 +3,8 @@ import solidPlugin from 'vite-plugin-solid';
 import devtools from 'solid-devtools/vite';
 
 export default defineConfig({
+  // Served from https://klequis.github.io/sh-brief/
+  base: '/sh-brief/',
   plugins: [devtools(), solidPlugin()],
   server: {
     port: 3000,

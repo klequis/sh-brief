@@ -10,7 +10,11 @@ const Header: Component = () => {
     <header class={styles.header}>
       <div class={`container ${styles.inner}`}>
         <A href="/" noScroll class={styles.brand}>
-          <img src="/logo.png" alt="" class={styles.logo} />
+          <img
+            src={`${import.meta.env.BASE_URL}logo.png`}
+            alt=""
+            class={styles.logo}
+          />
           <span>
             <span class={styles.orgName}>{siteConfig.orgName}</span>
             <span class={styles.tagline}>{siteConfig.tagline}</span>

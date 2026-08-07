@@ -27,4 +27,5 @@ Format
 Other
 - The site will be static whch can be setup in the SolidJS configuration.
 - Updates will be done manually by me editing the code (i.e., populating events)
-- It will be deployed to an AWS bucket.
+- It will be deployed to GitHub Pages at https://klequis.github.io/sh-brief/
+  (built and published by .github/workflows/deploy.yml on push to main).
