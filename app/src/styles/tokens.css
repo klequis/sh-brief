@@ -1,0 +1,23 @@
+:root {
+  /* Color */
+  --color-primary: #206699;
+  --color-primary-hover: #5bc7ff;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f4f4f4;
+  --color-bg-subtle: #f8f8fa;
+  --color-footer-bg: #393d41;
+  --color-text: #333333;
+  --color-text-muted: #666666;
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-muted: #cccccc;
+
+  /* Typography */
+  --font-body: 'Ubuntu', Arial, Helvetica, sans-serif;
+  --font-heading: 'Ubuntu Condensed', Arial, Helvetica, sans-serif;
+
+  /* Layout */
+  --header-height: 72px;
+  --content-max-width: 1100px;
+  --section-padding-y: 4rem;
+  --section-padding-x: 1.5rem;
+}

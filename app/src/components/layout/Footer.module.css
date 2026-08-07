@@ -1,0 +1,30 @@
+.footer {
+  width: 100%;
+  background: var(--color-footer-bg);
+  color: var(--color-text-inverse-muted);
+  padding: 2.5rem var(--section-padding-x);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  text-align: center;
+}
+
+.quickLinks a,
+.social a {
+  color: var(--color-text-inverse);
+  text-decoration: none;
+}
+
+.quickLinks a:hover,
+.social a:hover {
+  color: var(--color-primary-hover);
+}
+
+.copyright {
+  margin: 0;
+  font-size: 0.85rem;
+}

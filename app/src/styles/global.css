@@ -1,0 +1,83 @@
+@import './tokens.css';
+@import './fonts.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sizes/weights/colors below match the live site's actual theme CSS
+   (h1/h2/h3/h4 rules), not a guess: only the page's one hero heading
+   (Home's "Welcome...") is blue — h2/h3/h4 section headings are dark gray. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-body);
+}
+
+.section h1 {
+  color: var(--color-primary);
+  font-weight: 300;
+  font-size: 44px;
+  line-height: 1.1;
+}
+
+h2 {
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 28px;
+}
+
+h3 {
+  color: var(--color-text);
+  font-weight: 300;
+  font-size: 22px;
+}
+
+h4 {
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+a:hover {
+  color: var(--color-primary-hover);
+}
+
+.section {
+  width: 100%;
+  padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+/* Scroll targets sit under the sticky header without this. The descendant rule
+   covers the sub-section anchors (#mission, #board, #events, #faqs, ...), which
+   are plain divs rather than .section elements. */
+.section,
+.section [id] {
+  scroll-margin-top: var(--header-height);
+}
+
+.section--alt {
+  background: var(--color-bg-alt);
+}
+
+.container {
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+}
