@@ -21,3 +21,12 @@
   --section-padding-y: 4rem;
   --section-padding-x: 1.5rem;
 }
+
+/* The header stacks into two rows here (see Header.module.css — keep the
+   breakpoints in sync). Sections use --header-height as scroll-margin-top, so
+   it has to grow with it or nav clicks land the heading under the header. */
+@media (max-width: 900px) {
+  :root {
+    --header-height: 96px;
+  }
+}

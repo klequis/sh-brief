@@ -11,10 +11,14 @@ export const siteConfig = {
   copyright: '© Stanislaus Humanists Inc.',
 };
 
+// "id" is the id of the <section> the link scrolls to, which the scroll-spy in
+// the header needs to map a scroll position back to a link. Keep this array in
+// the same order the sections appear in Sections.tsx — createActiveSection
+// walks it top to bottom.
 export const navLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/about-us' },
-  { label: 'About Humanism', href: '/about-humanism' },
-  { label: 'Membership', href: '/membership' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home', href: '/', id: 'home' },
+  { label: 'About Us', href: '/about-us', id: 'about-us' },
+  { label: 'About Humanism', href: '/about-humanism', id: 'about-humanism' },
+  { label: 'Membership', href: '/membership', id: 'membership' },
+  { label: 'Contact', href: '/contact', id: 'contact' },
 ];

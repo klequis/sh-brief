@@ -2,13 +2,16 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  height: var(--header-height);
+  /* min-height, not height: the stacked mobile layout must not clip if a font
+     renders taller than expected. --header-height is set per breakpoint in
+     tokens.css to match, and is what sections use for scroll-margin-top. */
+  min-height: var(--header-height);
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-bg-alt);
 }
 
 .inner {
-  height: 100%;
+  min-height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -45,17 +48,76 @@
 }
 
 .nav {
+  /* position: relative makes the nav the offsetParent of its links, so the
+     centring maths in Header.tsx can use offsetLeft directly. */
+  position: relative;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.25rem;
+  gap: 0.5rem;
+  /* No flex-wrap: wrapping inside a fixed-height sticky bar is what pushed the
+     links out of the header on narrow screens. They scroll sideways instead. */
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scroll-padding-inline: 0.5rem;
+  /* Room for the focus ring, which the scroll container would otherwise clip. */
+  padding-block: 3px;
+  scrollbar-width: none;
 }
 
-.nav a {
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.navLink {
+  flex: none;
+  scroll-snap-align: center;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
   text-decoration: none;
+  white-space: nowrap;
   color: var(--color-primary);
   font-size: 0.95rem;
 }
 
-.nav a:hover {
+.navLink:hover {
   color: var(--color-primary-hover);
+}
+
+.navLinkActive,
+.navLinkActive:hover {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 500;
+}
+
+/* Brand and nav stop fitting on one row somewhere under 900px, so stack them:
+   brand on top, the section pills as a scrollable strip beneath. Keep the
+   breakpoint in sync with the --header-height override in tokens.css. */
+@media (max-width: 900px) {
+  .inner {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 0.375rem;
+    padding-block: 0.5rem;
+  }
+
+  .brand {
+    align-self: flex-start;
+  }
+
+  .logo {
+    width: 32px;
+    height: 32px;
+  }
+
+  .orgName {
+    font-size: 1rem;
+  }
+
+  /* Dropped rather than shrunk — the two rows only fit in a sticky bar this
+     short if the brand stays one line tall. */
+  .tagline {
+    display: none;
+  }
 }
