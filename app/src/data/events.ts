@@ -18,7 +18,16 @@ export const events: HumanistEvent[] = [
     date: "2026-08-08",
     time: "9:00 AM",
     location: "Queen Bean Coffee House, 1126 14th St, Modesto, CA 95354",
-    description: "Social event",
+    description: "Social event: Bring books, devices, or notepads while we solve the world's problems, exchange witty repartee, and drink delicious coffee.",
+    url: "https://meetup.com",
+  },
+  {
+    id: "2",
+    title: "Game Night",
+    date: "2026-08-22",
+    time: "5:00 PM",
+    location: "Round Table Pizza, 2441 Claribel Rd Ste J · Riverbank, CA",
+    description: "Come and play some games with us! We will have a variety of games to choose from.",
     url: "https://meetup.com",
   }
 ];

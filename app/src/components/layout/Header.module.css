@@ -19,7 +19,12 @@
   padding-inline: var(--section-padding-x);
 }
 
+/* Sizes here are px, matching global.css, deliberately. They used to be rem,
+   which resolves against the 16px root while body text is 18px — that made the
+   brand and nav render smaller than the copy underneath them. */
 .brand {
+  /* Never shrink: the squeeze goes to the nav, which can scroll. */
+  flex: none;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -28,8 +33,8 @@
 }
 
 .logo {
-  width: 40px;
-  height: 40px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
 }
 
@@ -37,13 +42,13 @@
   display: block;
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 24px;
   color: var(--color-text);
 }
 
 .tagline {
   display: block;
-  font-size: 0.75rem;
+  font-size: 15px;
   color: var(--color-text-muted);
 }
 
@@ -52,6 +57,10 @@
      centring maths in Header.tsx can use offsetLeft directly. */
   position: relative;
   display: flex;
+  /* Flex items won't shrink below their content by default, which would push
+     the pills out of the header. With this they scroll instead, so the layout
+     degrades gracefully at widths just above the breakpoint. */
+  min-width: 0;
   gap: 0.5rem;
   /* No flex-wrap: wrapping inside a fixed-height sticky bar is what pushed the
      links out of the header on narrow screens. They scroll sideways instead. */
@@ -71,12 +80,12 @@
 .navLink {
   flex: none;
   scroll-snap-align: center;
-  padding: 0.375rem 0.75rem;
+  padding: 7px 14px;
   border-radius: 999px;
   text-decoration: none;
   white-space: nowrap;
   color: var(--color-primary);
-  font-size: 0.95rem;
+  font-size: 17px;
 }
 
 .navLink:hover {
@@ -90,10 +99,11 @@
   font-weight: 500;
 }
 
-/* Brand and nav stop fitting on one row somewhere under 900px, so stack them:
-   brand on top, the section pills as a scrollable strip beneath. Keep the
-   breakpoint in sync with the --header-height override in tokens.css. */
-@media (max-width: 900px) {
+/* Brand and nav stop fitting on one row somewhere under 1100px now that both
+   are bigger, so stack them: brand on top, the section pills as a scrollable
+   strip beneath. Keep this breakpoint in sync with the --header-height
+   override in tokens.css. */
+@media (max-width: 1100px) {
   .inner {
     flex-direction: column;
     align-items: stretch;
@@ -106,13 +116,20 @@
     align-self: flex-start;
   }
 
+  /* Scaled back from the desktop sizes: two stacked rows have to stay short
+     enough that a sticky header doesn't eat a phone screen. */
   .logo {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
   }
 
   .orgName {
-    font-size: 1rem;
+    font-size: 19px;
+  }
+
+  .navLink {
+    padding: 6px 12px;
+    font-size: 16px;
   }
 
   /* Dropped rather than shrunk — the two rows only fit in a sticky bar this
