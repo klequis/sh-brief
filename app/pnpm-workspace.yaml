@@ -1,2 +1,14 @@
+# pnpm 10 treats the presence of this file as declaring a workspace and fails
+# with "packages field missing or empty" if it isn't listed. pnpm 11 tolerates
+# the omission, which is why GitHub Actions passed while Cloudflare's builder
+# (pnpm 10.11.1) did not. This is a single package, so "." is the whole list.
+packages:
+  - .
+
+# esbuild's postinstall fetches its platform binary, so it has to be allowed to
+# run. allowBuilds is the pnpm 11 spelling; onlyBuiltDependencies is pnpm 10's.
+# Keep both until the builder and CI agree on a version.
 allowBuilds:
   esbuild: true
+onlyBuiltDependencies:
+  - esbuild
