@@ -101,6 +101,26 @@
   font-weight: 500;
 }
 
+/* .navWrapped is set by Header.tsx whenever the pills actually occupy more than
+   one row — which is a content-dependent width (~565px today), not one a media
+   query can name. Once wrapped, the filled pill is too heavy a mark: it's the
+   same block of solid colour it is on a desktop, against a bar it now takes a
+   third of. Weight plus a rule carries "you are here" instead.
+   Both selectors, because the base rule states its own :hover and would
+   otherwise win the fill back under a cursor. */
+.navWrapped .navLinkActive,
+.navWrapped .navLinkActive:hover {
+  background: none;
+  color: var(--color-primary);
+  font-weight: 700;
+  /* Offset clears the descenders in "Membership" — an underline on the
+     baseline collides with them and reads as a smudge at 14px. Thickness is
+     explicit so it doesn't come out hairline next to 700-weight text. */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
 /* Brand and nav stop fitting on one row somewhere under 1100px now that both
    are bigger, so stack them: brand on top, the section pills as a scrollable
    strip beneath. Keep this breakpoint in sync with the --header-height
@@ -118,15 +138,19 @@
     align-self: flex-start;
   }
 
-  /* Scaled back from the desktop sizes: two stacked rows have to stay short
-     enough that a sticky header doesn't eat a phone screen. */
+  /* Scaled to the room actually available rather than dropped to a single
+     small size. These used to be flat 40px/19px, which meant crossing 1100px
+     shrank the name from 24px to 19px in one step — and the stacked brand has
+     a whole row to itself, so at 500px there was nothing that 5px bought. The
+     clamp floor is what fits beside the logo at 320px; the ceiling is the
+     desktop size, reached around 480px. */
   .logo {
-    width: 40px;
-    height: 40px;
+    width: clamp(40px, 8vw, 48px);
+    height: clamp(40px, 8vw, 48px);
   }
 
   .orgName {
-    font-size: 19px;
+    font-size: clamp(20px, 5vw, 24px);
   }
 
   /* The pills stop fitting one row at ~600px. Wrap rather than scroll: a
@@ -140,9 +164,12 @@
     overflow-x: visible;
   }
 
+  /* A notch below the brand rather than level with it. Once the nav wraps it
+     becomes the largest block in the header by area, so at equal type size it
+     wins the eye over the name it sits under — which is backwards. */
   .navLink {
     padding: 6px 12px;
-    font-size: 16px;
+    font-size: 15px;
   }
 
   /* Dropped rather than shrunk — the two rows only fit in a sticky bar this
@@ -161,6 +188,6 @@
 
   .navLink {
     padding: 5px 10px;
-    font-size: 15px;
+    font-size: 14px;
   }
 }

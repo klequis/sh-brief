@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
-import { For, createEffect, onCleanup, onMount } from 'solid-js';
+import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { A } from '@solidjs/router';
 
 import { siteConfig, navLinks } from '../../data/site';
@@ -11,6 +11,8 @@ const prefersReducedMotion = () =>
 
 const Header: Component = () => {
   const activeId = createActiveSection(navLinks.map((link) => link.id));
+
+  const [navWrapped, setNavWrapped] = createSignal(false);
 
   let headerRef: HTMLElement | undefined;
   let navRef: HTMLElement | undefined;
@@ -26,19 +28,34 @@ const Header: Component = () => {
   // the property that determines it would be a feedback loop.
   onMount(() => {
     const header = headerRef;
-    if (!header) return;
+    const nav = navRef;
+    if (!header || !nav) return;
 
-    const publishHeight = () => {
+    const measure = () => {
       document.documentElement.style.setProperty(
         '--header-height',
         // getBoundingClientRect over the observer's contentRect: the latter
         // excludes the header's bottom border, leaving headings 1px high.
         `${Math.ceil(header.getBoundingClientRect().height)}px`,
       );
+
+      // Whether the pills wrap is a question about the rendered result, not
+      // about viewport width: it depends on the label text, the font that
+      // actually loaded, and how many links there are. Comparing the first and
+      // last pill's offsetTop answers it directly, and keeps answering it if
+      // the nav list changes. (offsetTop is relative to the nav, which is
+      // position: relative — same reason the centring maths below works.)
+      const first = linkRefs[navLinks[0].id];
+      const last = linkRefs[navLinks[navLinks.length - 1].id];
+      setNavWrapped(!!first && !!last && last.offsetTop > first.offsetTop);
     };
 
-    const observer = new ResizeObserver(publishHeight);
+    // Both elements: the header catches most changes, but a wrap that fits
+    // inside --header-min-height wouldn't alter the header's own box, and the
+    // nav's would still change.
+    const observer = new ResizeObserver(measure);
     observer.observe(header);
+    observer.observe(nav);
     onCleanup(() => observer.disconnect());
   });
 
@@ -75,7 +92,12 @@ const Header: Component = () => {
             <span class={styles.tagline}>{siteConfig.tagline}</span>
           </span>
         </A>
-        <nav ref={navRef} class={styles.nav} aria-label="Sections">
+        <nav
+          ref={navRef}
+          class={styles.nav}
+          classList={{ [styles.navWrapped]: navWrapped() }}
+          aria-label="Sections"
+        >
           <For each={navLinks}>
             {(link) => (
               <A
