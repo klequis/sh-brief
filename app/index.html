@@ -8,7 +8,12 @@
       name="description"
       content="Stanislaus Humanists — a local chapter of the American Humanist Association promoting reason, compassion, and community in the Central Valley."
     />
-    <link rel="icon" type="image/png" href="/logo.png" />
+    <!-- The full seal (logo.png) is unreadable at 16px, so the tab icon is just
+         the figure from its center, on a solid brand-blue tile. SVG first for
+         browsers that take it; the .ico carries the raster fallbacks. -->
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Stanislaus Humanists</title>
   </head>
   <body>
