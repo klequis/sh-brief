@@ -6,19 +6,57 @@ It is currently served at:
 
     https://klequis.github.io/sh-brief/
 
-This document covers pointing a custom domain (for example
-`stanislaushumanists.org`) at that site.
+This document covers pointing the custom domain **`stanislaus-humanists.org`** at
+that site.
 
-The work splits cleanly into **two independent halves**:
+## Current state
+
+| | |
+| --- | --- |
+| **Domain** | `stanislaus-humanists.org`, registered 2026-08-12 |
+| **Registrar / DNS** | Cloudflare (nameservers `hasslo` / `macy.ns.cloudflare.com`) |
+| **Host** | GitHub Pages — staying there, see below |
+| **Controlled by** | You, both halves. No third party involved. |
+
+Because Cloudflare Registrar requires its own nameservers, DNS for this domain
+is at Cloudflare and can't be moved elsewhere without transferring the domain.
+That's fine — Cloudflare's DNS is a good place to be, and it makes the apex
+setup *simpler* than a typical registrar (see Step 2).
+
+### Why not host on Cloudflare Pages too?
+
+The domain being at Cloudflare is not a reason to move hosting there. The main
+draw of Cloudflare Pages is Workers/Functions for serverless backend code, and
+[payment-plan-options.md](payment-plan-options.md) already rules that need out —
+requirement 5 is "static site, no backend," and the surviving payment options
+(Stripe, Square, PayPal) all work as a hosted-checkout link from a static page.
+
+Staying on GitHub Pages also keeps the deploy config in
+[deploy.yml](../.github/workflows/deploy.yml), where it travels with the repo,
+rather than in a dashboard tied to one personal account — which matters for a
+volunteer org whose maintainer may change. Revisit only if a genuine backend
+need appears; migrating a static site between the two is a short job with no
+lock-in penalty for waiting.
+
+### Note on the *other* domain
+
+The org's existing domain `stanislaushumanists.org` (no hyphen) is a separate
+thing: it sits on a **different** Cloudflare account (nameservers `sofia` /
+`santino`) and still resolves to the Wild Apricot host at `34.226.77.200`.
+Nothing in this document touches it. If the org later gains control of it and
+wants to use it instead, the steps here apply unchanged — only the domain name
+differs, and Step 5's handoff section covers the case where someone else holds
+the DNS.
+
+## The two halves
 
 | Half | Where the work happens | Who can do it |
 | --- | --- | --- |
 | **A. Repo + GitHub settings** | This repo, and GitHub → Settings → Pages | Whoever has admin on `klequis/sh-brief` (you) |
-| **B. DNS records** | The domain registrar / DNS host | Whoever controls the domain |
+| **B. DNS records** | Cloudflare dashboard | Whoever controls the domain (you) |
 
-If you control both, do everything (Scenario 1). If someone else controls the
-domain, you do Half A and hand them Half B (Scenario 2) — they do **not** need
-any access to GitHub, and you do **not** need any access to the registrar.
+You control both, so follow Scenario 1 in Step 5. Scenario 2 is retained only
+for the `stanislaushumanists.org` case above, where someone else would hold DNS.
 
 > **The one code change is already done** (Step 1). The build now uses relative
 > asset paths, so it serves correctly at the current `github.io` URL *and* at a
@@ -33,16 +71,22 @@ any access to GitHub, and you do **not** need any access to the registrar.
 Pick **one** of these as the primary domain. This choice determines which DNS
 records are needed.
 
-| Option | Primary URL | DNS record type | Notes |
-| --- | --- | --- | --- |
-| **Apex (recommended here)** | `https://stanislaushumanists.org` | `A` + `AAAA` at the root | Shorter URL. Matches the old site. Requires 4 A records (+4 AAAA). |
-| **`www` subdomain** | `https://www.stanislaushumanists.org` | one `CNAME` | Simplest DNS. Marginally more resilient if GitHub ever changes IPs. |
+| Option | Primary URL | Notes |
+| --- | --- | --- |
+| **Apex (recommended)** | `https://stanislaus-humanists.org` | Shorter, cleaner for print and word of mouth. |
+| **`www` subdomain** | `https://www.stanislaus-humanists.org` | No real advantage here. |
 
-Either way you should also set up the *other* one to redirect, so both work.
-GitHub does that automatically once both DNS records exist:
+On a typical registrar the apex is the awkward choice, because apex records
+can't be `CNAME`s and you're stuck hardcoding GitHub's four IP addresses.
+**Cloudflare removes that tradeoff** via CNAME flattening: you enter a `CNAME`
+at the root and Cloudflare serves it as `A` records automatically. So the apex
+costs you nothing extra and needs no hardcoded IPs.
 
-- If the primary is the apex, add a `www` CNAME too → GitHub redirects `www` → apex.
-- If the primary is `www`, add the apex A/AAAA records too → GitHub redirects apex → `www`.
+Either way, set up the other one too so both work. GitHub redirects between
+them automatically once both records exist:
+
+- Primary apex → add a `www` record too → GitHub redirects `www` → apex.
+- Primary `www` → add the apex record too → GitHub redirects apex → `www`.
 
 The rest of this doc assumes **apex primary with `www` also configured**. If you
 choose `www` primary, the only difference is which name you type into the
@@ -76,7 +120,7 @@ with a leading slash. Those resolve against the domain root, wherever that is:
 | | Domain root | HTML asks for | Files actually at |
 | --- | --- | --- | --- |
 | `github.io`, old config | `klequis.github.io` | `/sh-brief/assets/…` | `/sh-brief/assets/…` ✅ |
-| Custom domain, old config | `stanislaushumanists.org` | `/sh-brief/assets/…` | `/assets/…` ❌ |
+| Custom domain, old config | `stanislaus-humanists.org` | `/sh-brief/assets/…` | `/assets/…` ❌ |
 
 That second row is a blank white page with 404s for every JS and CSS file. The
 site was fine before the migration; it would have broken at the cutover.
@@ -92,7 +136,7 @@ base: './',
 
 Relative paths resolve against the page's own location, so one build works at
 **both** URLs at once — `klequis.github.io/sh-brief/` today and
-`stanislaushumanists.org/` after the cutover.
+`stanislaus-humanists.org/` after the cutover.
 
 This is safe here specifically because the app uses `HashRouter`: hash routing
 only ever changes the fragment after `#`, never the document path, so `./` keeps
@@ -141,7 +185,7 @@ want it, create `app/public/CNAME` — files in `app/public/` are copied verbati
 into `app/dist/`, which is what the workflow uploads:
 
 ```
-stanislaushumanists.org
+stanislaus-humanists.org
 ```
 
 One line, the bare domain, no `https://`, no trailing slash, no `www` (unless
@@ -150,60 +194,64 @@ the two will fight each other.
 
 ---
 
-## Step 2 (Half B — DNS): add the records
+## Step 2 (Half B — DNS): add the records in Cloudflare
 
-These go at the DNS host for the domain (GoDaddy, Namecheap, Cloudflare, Google
-Domains/Squarespace, Route 53, etc.). Whoever controls the domain does this.
+Go to the Cloudflare dashboard → select `stanislaus-humanists.org` → **DNS** →
+**Records**.
 
-### Apex records (`stanislaushumanists.org`)
+The domain is brand new, so there should be nothing to clean up. If Cloudflare
+added any placeholder or parking records at the apex or `www`, delete them
+first — conflicting records are the most common cause of failure here.
 
-Four `A` records, all with host/name `@` (or blank, or the bare domain —
-registrars label this differently):
+### Add two records
 
-```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
-```
+| Type | Name | Target | Proxy status | TTL |
+| --- | --- | --- | --- | --- |
+| `CNAME` | `@` | `klequis.github.io` | **DNS only** (grey cloud) | Auto |
+| `CNAME` | `www` | `klequis.github.io` | **DNS only** (grey cloud) | Auto |
 
-And, if the DNS host supports IPv6, four `AAAA` records on the same host `@`:
+That's it — two records, no IP addresses. Cloudflare's **CNAME flattening**
+turns the apex `CNAME` into `A` records at query time, which is why the root
+domain doesn't need GitHub's four IPs. It also means you're immune to GitHub
+ever changing them.
 
-```
-2606:50c0:8000::153
-2606:50c0:8001::153
-2606:50c0:8002::153
-2606:50c0:8003::153
-```
+Notes on the target value:
 
-> Verify these against GitHub's current published values before handing them
-> off: <https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site>
-> They have been stable for years but GitHub is the authority, not this doc.
+- It is `klequis.github.io` — the **account** Pages host. No `/sh-brief` path,
+  no `https://`, no repo name. The repo is identified by the GitHub setting in
+  Step 3, not by DNS.
+- Cloudflare will show "CNAME flattening" or resolve the apex automatically; you
+  don't need to enable anything.
 
-### `www` record
+### Proxy status matters — start with DNS only
 
-One `CNAME` record:
+The grey-cloud / orange-cloud toggle is the single most common Cloudflare
+mistake here.
 
-```
-Host/Name:  www
-Value:      klequis.github.io
-```
+- **Set both records to "DNS only" (grey cloud) initially.** Proxying blocks
+  GitHub's domain validation, so the Let's Encrypt certificate in Step 4 will
+  never issue.
+- You *may* turn proxying on later, once HTTPS is working and enforced, if you
+  want Cloudflare's caching and analytics in front of GitHub Pages. If you do:
+  set **SSL/TLS → Overview → Full** (or Full (strict)). Leaving it on
+  **Flexible** causes an infinite redirect loop, because GitHub redirects to
+  HTTPS while Cloudflare keeps requesting HTTP.
+- There is no obligation to proxy. Grey cloud is a perfectly good permanent
+  state for this site.
 
-Note: the value is `klequis.github.io` — the **user's** Pages host, with **no**
-`/sh-brief` path and no trailing dot issues (some registrars require a trailing
-dot: `klequis.github.io.`).
+### If you ever need the raw IPs
 
-### Things that break this
+Not needed with CNAME flattening, but for reference — GitHub's apex `A` records
+are `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`,
+with `AAAA` at `2606:50c0:800{0,1,2,3}::153`. Verify against GitHub's current
+published values rather than trusting this doc:
+<https://docs.github.com/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site>
 
-- **Do not** leave old `A`, `AAAA`, `ALIAS`, or `CNAME` records for the same
-  host pointing at the previous host (Wild Apricot, or anywhere else). Remove
-  them. Conflicting records are the most common failure.
-- **Cloudflare users:** set the records to **DNS only** (grey cloud), not
-  proxied (orange cloud), at least until GitHub has issued the TLS certificate.
-  Proxying during setup blocks GitHub's domain validation. You can turn proxying
-  back on afterward, with SSL mode set to "Full".
-- Do not touch `MX` records if the domain handles email — none of the above
-  affects mail.
+### Don't touch
+
+Leave `MX` and any `TXT` records (SPF/DKIM) alone — none of the above affects
+email. The new domain probably has none yet, but this matters if mail is ever
+set up on it.
 
 ---
 
@@ -211,7 +259,7 @@ dot: `klequis.github.io.`).
 
 1. Go to <https://github.com/klequis/sh-brief/settings/pages>
 2. Under **Custom domain**, enter the bare domain (no `https://`):
-   `stanislaushumanists.org`
+   `stanislaus-humanists.org`
 3. Click **Save**.
 
 GitHub immediately runs a DNS check. If DNS has already propagated you'll see a
@@ -251,11 +299,13 @@ Best order, minimizing downtime:
 Step 1 is already done and is deploy-safe at both URLs, so there is no code
 change to time. What's left:
 
-1. **DNS first.** Add the A / AAAA / CNAME records (Step 2). Do *not* touch
-   GitHub yet. The site keeps working at `klequis.github.io/sh-brief/` the whole
-   time.
-2. **Wait for propagation.** Verify with the commands in Step 6. Wait until the
-   A records resolve to the GitHub IPs from a couple of different networks.
+1. **DNS first.** Add the two Cloudflare `CNAME` records (Step 2), both set to
+   DNS only. Do *not* touch GitHub yet — the site keeps working at
+   `klequis.github.io/sh-brief/` the whole time.
+2. **Wait for propagation.** Verify with the commands in Step 6. Cloudflare
+   publishes changes in seconds, but the domain itself was only registered on
+   2026-08-12, so give the initial nameserver delegation time to spread — a new
+   registration can take a few hours to be visible everywhere.
 3. **Set the custom domain in GitHub** (Step 3).
 4. **Enforce HTTPS** once available (Step 4).
 5. **Verify** (Step 6).
@@ -264,7 +314,11 @@ Doing DNS before Step 3 means there is no downtime at all — the relative base
 path means the already-deployed build serves correctly at the new domain the
 moment DNS and the GitHub setting line up.
 
-### Scenario 2 — the domain owner does DNS, you do GitHub
+### Scenario 2 — someone else does DNS, you do GitHub
+
+**Not applicable to `stanislaus-humanists.org`** — you hold that domain, so use
+Scenario 1. This section is kept for the case where the org gains control of
+`stanislaushumanists.org` (no hyphen) and someone else administers its DNS.
 
 The dependency is one-directional: **their DNS work must land before your
 GitHub work**, otherwise you take the site down while waiting on them.
@@ -282,32 +336,38 @@ tell them exactly which record is off, without ever needing registrar access.
 
 #### Handoff text for the domain owner
 
+Substitute the correct domain name before sending.
+
 > We're moving the website to a new host (GitHub Pages). I don't need any access
 > to the domain — I just need these DNS records added at whatever service
-> manages DNS for `stanislaushumanists.org`.
+> manages its DNS.
 >
 > **1. Remove** any existing `A`, `AAAA`, or `CNAME` records for the root domain
-> (`@`) and for `www` that point at the old website host. Leave `MX` and any
-> email-related records (SPF/DKIM/TXT) alone.
+> (`@`) and for `www` that point at the old website host (Wild Apricot). Leave
+> `MX` and any email-related records (SPF/DKIM/TXT) alone.
 >
-> **2. Add four A records**, host `@` (or blank / the root domain):
+> **2a. If DNS is on Cloudflare** — add just two records, both set to **"DNS
+> only"** (grey cloud, not proxied):
+>
+>     CNAME   @     klequis.github.io
+>     CNAME   www   klequis.github.io
+>
+> **2b. On any other DNS host**, the root domain can't take a CNAME, so it needs
+> the IPs instead. Four `A` records on host `@`:
 >
 >     185.199.108.153
 >     185.199.109.153
 >     185.199.110.153
 >     185.199.111.153
 >
-> **3. Add four AAAA records**, host `@`, if IPv6 is supported:
+> Four `AAAA` records on host `@`, if IPv6 is supported:
 >
 >     2606:50c0:8000::153
 >     2606:50c0:8001::153
 >     2606:50c0:8002::153
 >     2606:50c0:8003::153
 >
-> **4. Add one CNAME record**, host `www`, value `klequis.github.io`
->
-> If DNS is managed through Cloudflare, please set these to "DNS only" (grey
-> cloud), not proxied.
+> Plus one `CNAME` on host `www` with value `klequis.github.io`.
 >
 > Let me know when they're saved and I'll take it from there. There may be a
 > short period where the site is unreachable while things propagate.
@@ -324,25 +384,35 @@ what you want. There's no need — Half A and Half B are fully separable.
 ### Check DNS (before touching GitHub)
 
 ```bash
-# Apex should return the four GitHub IPs
-dig +short stanislaushumanists.org A
+# Nameservers — confirm delegation has propagated at all
+dig +short stanislaus-humanists.org NS
 
-# www should return klequis.github.io, then the same IPs
-dig +short www.stanislaushumanists.org CNAME
-dig +short www.stanislaushumanists.org A
+# Apex: CNAME flattening means this returns GitHub's IPs, not a CNAME
+dig +short stanislaus-humanists.org A
+
+# www keeps its CNAME, which then resolves to the same IPs
+dig +short www.stanislaus-humanists.org CNAME
+dig +short www.stanislaus-humanists.org A
 
 # Query a public resolver directly to bypass local caching
-dig +short @1.1.1.1 stanislaushumanists.org A
+dig +short @1.1.1.1 stanislaus-humanists.org A
 ```
 
-Expected apex output:
+Expected:
 
 ```
-185.199.108.153
-185.199.109.153
-185.199.110.153
-185.199.111.153
+NS      hasslo.ns.cloudflare.com.   macy.ns.cloudflare.com.
+apex A  185.199.108.153  185.199.109.153  185.199.110.153  185.199.111.153
+www     klequis.github.io.  →  same four IPs
 ```
+
+Two failure signatures worth recognizing:
+
+- **Empty output everywhere** — nameserver delegation hasn't propagated yet.
+  Expected for a domain registered on 2026-08-12; wait it out.
+- **Apex returns `104.x.x.x` or `172.67.x.x`** — those are *Cloudflare's* IPs,
+  meaning the record is proxied (orange cloud). GitHub's certificate will never
+  issue. Switch the record to DNS only.
 
 For a wider view of propagation across regions: <https://dnschecker.org>
 
@@ -350,16 +420,16 @@ For a wider view of propagation across regions: <https://dnschecker.org>
 
 ```bash
 # Should be 200, and should be served over HTTPS
-curl -sI https://stanislaushumanists.org | head -n 1
+curl -sI https://stanislaus-humanists.org | head -n 1
 
 # www should 301 to the apex
-curl -sI https://www.stanislaushumanists.org | head -n 5
+curl -sI https://www.stanislaus-humanists.org | head -n 5
 
 # The old URL should 301 to the custom domain
 curl -sI https://klequis.github.io/sh-brief/ | head -n 5
 
 # Asset paths should be relative — "./assets/...", no leading slash
-curl -s https://stanislaushumanists.org | grep -oE '(src|href)="[^"]*"'
+curl -s https://stanislaus-humanists.org | grep -oE '(src|href)="[^"]*"'
 ```
 
 That last one is the check for Step 1. Expect `./assets/…` and `./logo.png`. If
@@ -374,14 +444,14 @@ identical output, since it's the same build serving at both mount points.
 Because the base path and routing are involved, these are worth clicking through
 by hand:
 
-- [ ] `https://stanislaushumanists.org` loads with styling and the logo, not a
+- [ ] `https://stanislaus-humanists.org` loads with styling and the logo, not a
       blank page
 - [ ] Browser console is free of 404s for JS/CSS/images
 - [ ] Every header nav link scrolls to its section and updates the URL hash
 - [ ] Reloading the page on a hash route (e.g. `/#/about`) lands on that section
 - [ ] The site works on a phone (the header nav has mobile-specific behavior)
 - [ ] Padlock icon shows in the address bar — no mixed-content warning
-- [ ] `www.stanislaushumanists.org` redirects to the apex
+- [ ] `www.stanislaus-humanists.org` redirects to the apex
 
 ---
 
@@ -400,9 +470,14 @@ they return the right IPs but GitHub still complains, click Save on the Pages
 settings again to force a recheck.
 
 **"Enforce HTTPS" stays greyed out**
-Certificate issuance is pending or stuck. Wait up to 24h, then remove and
-re-add the custom domain to retrigger it. Also confirm Cloudflare proxying is
-off if applicable.
+Almost always Cloudflare proxying. Check the DNS records are grey-cloud "DNS
+only", not orange. Otherwise certificate issuance is just pending — wait up to
+24h, then remove and re-add the custom domain to retrigger it.
+
+**Infinite redirect loop / `ERR_TOO_MANY_REDIRECTS`**
+Cloudflare proxying is on with SSL/TLS mode set to **Flexible**. Cloudflare
+requests HTTP from GitHub, GitHub redirects to HTTPS, repeat. Fix by setting
+SSL/TLS → Overview to **Full**, or by switching the records back to DNS only.
 
 **Site shows a 404 branded "There isn't a GitHub Pages site here"**
 The custom domain in Settings doesn't match the domain being requested, or a
@@ -436,19 +511,23 @@ path. DNS records can be left in place harmlessly, or removed at leisure.
 
 ## Summary checklist
 
-**Half A — GitHub (you)**
+**Half B — DNS (Cloudflare) — do this first**
+
+- [ ] Delete any placeholder records Cloudflare created at `@` or `www`
+- [ ] Add `CNAME` `@` → `klequis.github.io`, **DNS only** (grey cloud)
+- [ ] Add `CNAME` `www` → `klequis.github.io`, **DNS only** (grey cloud)
+- [ ] Confirm with `dig` that the apex returns GitHub's IPs, not Cloudflare's
+
+**Half A — GitHub**
 
 - [x] ~~Set `base: './'` in [app/vite.config.ts](../app/vite.config.ts)~~ — done,
       works at both URLs, nothing to time
-- [ ] Optionally add `app/public/CNAME` with the bare domain
-- [ ] Set Custom domain in Settings → Pages
+- [ ] Optionally add `app/public/CNAME` containing `stanislaus-humanists.org`
+- [ ] Set Custom domain to `stanislaus-humanists.org` in Settings → Pages
 - [ ] Enable Enforce HTTPS once available
 - [ ] Confirm the Actions deploy succeeded
 
-**Half B — DNS (you or the domain owner)**
+**Not doing**
 
-- [ ] Remove conflicting old A / AAAA / CNAME records
-- [ ] Add 4 apex A records
-- [ ] Add 4 apex AAAA records
-- [ ] Add `www` CNAME → `klequis.github.io`
-- [ ] Cloudflare only: set to DNS-only (grey cloud)
+- Moving hosting to Cloudflare Pages — no backend need, and the deploy config is
+  better off living in the repo. Revisit only if that changes.
