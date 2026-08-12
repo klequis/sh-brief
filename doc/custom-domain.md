@@ -41,12 +41,23 @@ lock-in penalty for waiting.
 ### Note on the *other* domain
 
 The org's existing domain `stanislaushumanists.org` (no hyphen) is a separate
-thing: it sits on a **different** Cloudflare account (nameservers `sofia` /
-`santino`) and still resolves to the Wild Apricot host at `34.226.77.200`.
-Nothing in this document touches it. If the org later gains control of it and
-wants to use it instead, the steps here apply unchanged — only the domain name
-differs, and Step 5's handoff section covers the case where someone else holds
-the DNS.
+thing. What DNS shows, as of 2026-08-12:
+
+- Its nameservers are `sofia` / `santino.ns.cloudflare.com`, so its DNS is
+  managed through Cloudflare by someone.
+- It still resolves to `34.226.77.200` — the Wild Apricot host.
+
+**Who administers it is an open question**, and
+[site-setup-plan.md](site-setup-plan.md) lists exactly that as an unresolved
+decision. DNS can't answer it: Cloudflare assigns nameserver pairs per zone, and
+two domains in the same account often get different pairs, so the fact that this
+pair differs from `hasslo` / `macy` tells you nothing about whose account it is.
+Finding out means asking the board, not querying DNS.
+
+Nothing in this document touches that domain. If the org turns out to control it
+— or gains control later — and wants to use it instead, the steps here apply
+unchanged. Only the domain name differs, and Step 5's handoff section covers the
+case where someone else holds the DNS.
 
 ## The two halves
 
@@ -317,8 +328,9 @@ moment DNS and the GitHub setting line up.
 ### Scenario 2 — someone else does DNS, you do GitHub
 
 **Not applicable to `stanislaus-humanists.org`** — you hold that domain, so use
-Scenario 1. This section is kept for the case where the org gains control of
-`stanislaushumanists.org` (no hyphen) and someone else administers its DNS.
+Scenario 1. This section is kept for the case where the site moves to
+`stanislaushumanists.org` (no hyphen) and its Cloudflare account turns out to be
+administered by someone else.
 
 The dependency is one-directional: **their DNS work must land before your
 GitHub work**, otherwise you take the site down while waiting on them.
