@@ -1,0 +1,10 @@
+{
+  // Assets-only Worker: no server code, just the built static site.
+  // Cloudflare Workers Builds runs from this directory (Root directory = "app"),
+  // so "./dist" is app/dist, which is what `pnpm build` produces.
+  "name": "sh-brief",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./dist"
+  }
+}
