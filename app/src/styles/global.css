@@ -60,6 +60,31 @@ a:hover {
   color: var(--color-primary-hover);
 }
 
+/* The UA default is `margin: 1em 40px` — 80px of the line gone to symmetric
+   indent, which at 320px leaves the quote about 190px wide and reading two
+   words to a line. Indent one side only and carry the "this is a quote" cue on
+   a rule instead of on whitespace, which is what the width was buying. */
+blockquote {
+  margin-block: 1em;
+  margin-inline: 0;
+  /* Padded both sides, not just the ruled one: with padding only on the start
+     edge the text ran flush to the container's right while sitting 19px in from
+     the left, so the column read as shoved rightward. The 3px on the end side
+     is the border width — the text column is only symmetric within the
+     blockquote if the end padding absorbs it. */
+  padding-inline-start: 1rem;
+  padding-inline-end: calc(1rem + 3px);
+  border-inline-start: 3px solid var(--color-bg-alt);
+}
+
+/* Also a UA default (40px), and also too much of a 320px line. 1.5rem still
+   clears the widest marker. .grid in EventList.module.css opts out with its own
+   padding — class beats element, so it wins here regardless of import order. */
+ul,
+ol {
+  padding-inline-start: 1.5rem;
+}
+
 .section {
   width: 100%;
   padding: var(--section-padding-y) var(--section-padding-x);
@@ -71,6 +96,15 @@ a:hover {
 .section,
 .section [id] {
   scroll-margin-top: var(--header-height);
+}
+
+/* A section's opening heading keeps its UA top margin (~29px under an h1),
+   which stacks on top of --section-padding-y and reads as a dead band below the
+   header. Scoped to the first .container so EventList's "Upcoming Events" — a
+   second .container inside #home — keeps the margin that separates it from the
+   paragraph above it. */
+.section > .container:first-child > :first-child {
+  margin-block-start: 0;
 }
 
 .section--alt {

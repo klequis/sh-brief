@@ -1,5 +1,5 @@
 import type { Component } from 'solid-js';
-import { For, createEffect } from 'solid-js';
+import { For, createEffect, onCleanup, onMount } from 'solid-js';
 import { A } from '@solidjs/router';
 
 import { siteConfig, navLinks } from '../../data/site';
@@ -12,13 +12,42 @@ const prefersReducedMotion = () =>
 const Header: Component = () => {
   const activeId = createActiveSection(navLinks.map((link) => link.id));
 
+  let headerRef: HTMLElement | undefined;
   let navRef: HTMLElement | undefined;
   const linkRefs: Record<string, HTMLAnchorElement> = {};
 
-  // Below the breakpoint the nav scrolls sideways, so the active pill can end up
-  // off-screen — which would leave the reader with no position indicator at all
-  // on exactly the screens where the page feels endless. Centering it also puts
-  // the neighbouring sections in view as the obvious next taps.
+  // Sections offset their scroll targets by --header-height so headings don't
+  // land under the sticky bar. The bar's height isn't a constant: the nav wraps
+  // to a second row on phones, and to a third on the narrowest ones. So publish
+  // the measured height instead of hardcoding one per breakpoint.
+  //
+  // This only ever writes --header-height, never --header-min-height, which is
+  // what the header's own CSS sizes against — writing the measured value into
+  // the property that determines it would be a feedback loop.
+  onMount(() => {
+    const header = headerRef;
+    if (!header) return;
+
+    const publishHeight = () => {
+      document.documentElement.style.setProperty(
+        '--header-height',
+        // getBoundingClientRect over the observer's contentRect: the latter
+        // excludes the header's bottom border, leaving headings 1px high.
+        `${Math.ceil(header.getBoundingClientRect().height)}px`,
+      );
+    };
+
+    const observer = new ResizeObserver(publishHeight);
+    observer.observe(header);
+    onCleanup(() => observer.disconnect());
+  });
+
+  // The nav wraps rather than scrolls at the widths where the pills don't fit,
+  // so this is a no-op in the normal case — scrollTo does nothing once
+  // scrollWidth equals clientWidth. It's here for the leftover case where the
+  // nav does scroll sideways (see the overflow-x safety valve in the stylesheet)
+  // and the active pill would otherwise sit off-screen, leaving the reader with
+  // no position indicator at all.
   //
   // Scrolls the nav element directly instead of calling scrollIntoView on the
   // pill: scrollIntoView walks up and scrolls every scrollable ancestor, which
@@ -33,7 +62,7 @@ const Header: Component = () => {
   });
 
   return (
-    <header class={styles.header}>
+    <header ref={headerRef} class={styles.header}>
       <div class={`container ${styles.inner}`}>
         <A href="/" noScroll class={styles.brand}>
           <img

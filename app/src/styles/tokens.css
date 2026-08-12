@@ -16,17 +16,37 @@
   --font-heading: 'Ubuntu Condensed', Arial, Helvetica, sans-serif;
 
   /* Layout */
+  /* Two knobs on purpose. --header-min-height is the designed height of the
+     bar and is the only one the header's own CSS reads. --header-height is
+     what the rest of the page offsets against (scroll-margin-top); Header.tsx
+     overwrites it with the header's measured height, because the nav wraps to
+     extra rows on narrow screens and no fixed number can track that. The value
+     here is the pre-hydration fallback. Feeding the measured height back into
+     min-height would make the two chase each other, hence the split. */
+  --header-min-height: 96px;
   --header-height: 96px;
   --content-max-width: 1100px;
   --section-padding-y: 4rem;
   --section-padding-x: 1.5rem;
 }
 
-/* The header stacks into two rows here (see Header.module.css — keep the
-   breakpoints in sync). Sections use --header-height as scroll-margin-top, so
-   it has to grow with it or nav clicks land the heading under the header. */
+/* The header stacks into two rows here (see Header.module.css). Only the
+   fallback needs a matching value now — once Header.tsx mounts, the measured
+   height takes over at every width. */
 @media (max-width: 1100px) {
   :root {
+    --header-min-height: 108px;
     --header-height: 108px;
+  }
+}
+
+/* 1.5rem gutters cost 48px of a 320px line. The header and the sections both
+   read this token, so they stay flush with each other. */
+@media (max-width: 600px) {
+  :root {
+    --section-padding-x: 1rem;
+    /* 4rem is a desktop rhythm — on a phone it's most of a screen of nothing
+       between the sticky header and the first heading. */
+    --section-padding-y: 2rem;
   }
 }

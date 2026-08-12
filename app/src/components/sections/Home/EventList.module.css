@@ -1,12 +1,15 @@
 /* auto-fit rather than a fixed column count: one event fills the row, two sit
    side by side, and any number past that wraps — without another breakpoint.
-   The 19rem floor is what stops a card getting too narrow to hold an address. */
+   The 19rem floor is what stops a card getting too narrow to hold an address.
+   min(19rem, 100%) because a bare 19rem is a floor the track holds even when
+   the container is narrower than that — below ~355px the cards grew past the
+   container and their background clipped at the right edge. */
 .grid {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr));
   gap: 1rem;
 }
 

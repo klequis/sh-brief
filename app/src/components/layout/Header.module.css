@@ -2,16 +2,17 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  /* min-height, not height: the stacked mobile layout must not clip if a font
-     renders taller than expected. --header-height is set per breakpoint in
-     tokens.css to match, and is what sections use for scroll-margin-top. */
-  min-height: var(--header-height);
+  /* min-height, not height: the stacked mobile layout grows a row whenever the
+     nav wraps, and must not clip. Reads --header-min-height rather than
+     --header-height on purpose — the latter is the measured height Header.tsx
+     writes back, and using it here would make the two chase each other. */
+  min-height: var(--header-min-height);
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-bg-alt);
 }
 
 .inner {
-  min-height: var(--header-height);
+  min-height: var(--header-min-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -62,8 +63,9 @@
      degrades gracefully at widths just above the breakpoint. */
   min-width: 0;
   gap: 0.5rem;
-  /* No flex-wrap: wrapping inside a fixed-height sticky bar is what pushed the
-     links out of the header on narrow screens. They scroll sideways instead. */
+  /* Single row up here — brand and nav share it, and wrapping would push the
+     bar past its designed height for no gain, since the pills fit. Sideways
+     scroll is the safety valve if a font renders wider than expected. */
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
@@ -127,6 +129,17 @@
     font-size: 19px;
   }
 
+  /* The pills stop fitting one row at ~600px. Wrap rather than scroll: a
+     scrolled-off link reads as a missing link, since there's nothing on a
+     touch screen to advertise that the strip scrolls. Wrapping only takes
+     effect once they genuinely don't fit, so 600-1100px stays one row.
+     Safe here only because Header.tsx measures the resulting height — see the
+     token comments in tokens.css. */
+  .nav {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
   .navLink {
     padding: 6px 12px;
     font-size: 16px;
@@ -136,5 +149,18 @@
      short if the brand stays one line tall. */
   .tagline {
     display: none;
+  }
+}
+
+/* Phone widths: buy back enough room that the five pills wrap to two rows
+   rather than three, down to ~340px. */
+@media (max-width: 600px) {
+  .nav {
+    gap: 0.375rem;
+  }
+
+  .navLink {
+    padding: 5px 10px;
+    font-size: 15px;
   }
 }
