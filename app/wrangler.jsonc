@@ -4,6 +4,12 @@
   // so "./dist" is app/dist, which is what `pnpm build` produces.
   "name": "sh-brief",
   "compatibility_date": "2026-08-01",
+  // The site is served from the custom domain. Leaving the workers.dev route on
+  // published a second, fully indexable copy at sh-brief.klequis.workers.dev —
+  // same bytes, no noindex header — competing with the canonical host.
+  // Branch preview URLs are a separate setting and stay on; Cloudflare already
+  // sends X-Robots-Tag: noindex on those, so they were never the problem.
+  "workers_dev": false,
   "preview_urls": true,
   "assets": {
     "directory": "./dist"
