@@ -4,6 +4,7 @@
   // so "./dist" is app/dist, which is what `pnpm build` produces.
   "name": "sh-brief",
   "compatibility_date": "2026-08-01",
+  "preview_urls": true,
   "assets": {
     "directory": "./dist"
   }
