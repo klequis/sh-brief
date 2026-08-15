@@ -6,7 +6,51 @@
     <meta name="theme-color" content="#3366FF" />
     <meta
       name="description"
-      content="Stanislaus Humanists — a local chapter of the American Humanist Association promoting reason, compassion, and community in the Central Valley."
+      content="Stanislaus Humanists: a chapter of the American Humanist Association in Modesto, CA. Events, community, and a secular voice in the San Joaquin Valley."
+    />
+    <link rel="canonical" href="https://stanislaus-humanists.org/" />
+
+    <!-- Open Graph and Twitter cards. Facebook, Meetup, Slack and the rest read
+         the raw HTML and never run JavaScript, so these only work because the
+         page is prerendered (scripts/prerender.mjs). Absolute URLs are required
+         — unfurlers do not resolve relative paths.
+         One route today, so these are static. When BrowserRouter lands (#7)
+         they move to @solidjs/meta and become per-route. -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Stanislaus Humanists" />
+    <meta
+      property="og:title"
+      content="Stanislaus Humanists — Secular Community in Modesto, CA"
+    />
+    <meta
+      property="og:description"
+      content="A chapter of the American Humanist Association serving Modesto and the northern San Joaquin Valley. Reason, compassion, and community — events open to all."
+    />
+    <meta property="og:url" content="https://stanislaus-humanists.org/" />
+    <meta
+      property="og:image"
+      content="https://stanislaus-humanists.org/og-image.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="The Stanislaus Humanists seal beside the words science, art, compassion — Modesto, California."
+    />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:title"
+      content="Stanislaus Humanists — Secular Community in Modesto, CA"
+    />
+    <meta
+      name="twitter:description"
+      content="A chapter of the American Humanist Association serving Modesto and the northern San Joaquin Valley. Reason, compassion, and community — events open to all."
+    />
+    <meta
+      name="twitter:image"
+      content="https://stanislaus-humanists.org/og-image.png"
     />
     <!-- The full seal (logo.png) is unreadable at 16px, so the tab icon is just
          the figure from its center, on a solid brand-blue tile. SVG first for
@@ -14,7 +58,10 @@
     <link rel="icon" href="/favicon.ico" sizes="48x48" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <title>Stanislaus Humanists</title>
+    <!-- The bare org name matched nothing anyone searches. Nobody looks for
+         "humanism" and expects Modesto; they search for a secular group near
+         them, so the place is in the title. -->
+    <title>Stanislaus Humanists — Secular Community in Modesto, CA</title>
     <!--app-head-->
   </head>
   <body>
