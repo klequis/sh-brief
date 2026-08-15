@@ -23,6 +23,15 @@ export const siteConfig = {
     postalCode: '95352',
   } satisfies MailingAddress,
   founded: '2012',
+  // Where members actually come from — the group is based in Modesto but is not
+  // limited to Stanislaus County. Emitted as areaServed in the JSON-LD.
+  areaServed: [
+    'Stanislaus County, California',
+    'San Joaquin County, California',
+    'Merced County, California',
+    'Tuolumne County, California',
+    'Calaveras County, California',
+  ],
   // Chapter of the American Humanist Association since November 20, 2013.
   parentOrg: {
     name: 'American Humanist Association',

@@ -111,9 +111,10 @@ function organization() {
     slogan: siteConfig.tagline,
     description:
       'Stanislaus Humanists is a chapter of the American Humanist Association ' +
-      'serving Modesto and Stanislaus County, California. We advance Humanism — ' +
-      'an ethical, life-affirming philosophy without supernatural beliefs — and ' +
-      'promote a secular society where no one imposes their beliefs on others.',
+      'based in Modesto, California and serving the northern San Joaquin ' +
+      'Valley. We advance Humanism — an ethical, life-affirming philosophy ' +
+      'without supernatural beliefs — and promote a secular society where no ' +
+      'one imposes their beliefs on others.',
     foundingDate: siteConfig.founded,
     nonprofitStatus: 'Nonprofit501c3',
     address: {
@@ -124,10 +125,10 @@ function organization() {
       postalCode: mailingAddress.postalCode,
       addressCountry: 'US',
     },
-    areaServed: {
+    areaServed: siteConfig.areaServed.map((name) => ({
       '@type': 'AdministrativeArea',
-      name: 'Stanislaus County, California',
-    },
+      name,
+    })),
     memberOf: {
       '@type': 'Organization',
       name: parentOrg.name,
