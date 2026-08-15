@@ -1,5 +1,5 @@
 /* @refresh reload */
-import { render } from 'solid-js/web';
+import { hydrate, render } from 'solid-js/web';
 import 'solid-devtools';
 
 import './styles/global.css';
@@ -13,4 +13,13 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
-render(() => <App />, root!);
+// Production builds are prerendered (scripts/prerender.mjs), so #root already
+// holds the markup and its hydration markers — adopt it instead of rebuilding,
+// which keeps the prerendered paint on screen rather than flashing it away.
+// The dev server serves index.html unprocessed, leaving #root empty, and
+// hydrate() on an empty container has no markers to adopt and renders nothing.
+if (import.meta.env.DEV) {
+  render(() => <App />, root!);
+} else {
+  hydrate(() => <App />, root!);
+}
