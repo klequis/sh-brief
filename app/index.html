@@ -15,10 +15,14 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <title>Stanislaus Humanists</title>
+    <!--app-head-->
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <!-- Both comments are placeholders filled in at build time by
+         scripts/prerender.mjs. The dev server leaves them as-is, so #root is
+         empty under `pnpm dev` and the browser entry plain-renders instead. -->
+    <div id="root"><!--app-html--></div>
 
     <script src="/src/index.tsx" type="module"></script>
   </body>

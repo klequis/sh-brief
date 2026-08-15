@@ -1,4 +1,7 @@
 dist
+# Scratch output from the SSR pass in scripts/prerender.mjs. The script cleans
+# it up itself, so it only survives a build that died partway through.
+.prerender
 .wrangler
 .output
 .vercel
