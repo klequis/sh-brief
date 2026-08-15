@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 import { For, Show } from 'solid-js';
 
-import { events } from '../../../data/events';
+import { events, formatEventLocation } from '../../../data/events';
 import styles from './EventList.module.css';
 
 // Events are stored as 'YYYY-MM-DD' so they sort as plain strings, and shown as
@@ -40,7 +40,9 @@ const EventList: Component = () => {
                   {event.time ? `, ${event.time}` : ''}
                 </p>
                 <Show when={event.location}>
-                  <p class={styles.where}>{event.location}</p>
+                  {(location) => (
+                    <p class={styles.where}>{formatEventLocation(location())}</p>
+                  )}
                 </Show>
                 <Show when={event.description}>
                   <p class={styles.description}>{event.description}</p>

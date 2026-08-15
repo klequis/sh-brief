@@ -1,8 +1,33 @@
+export interface MailingAddress {
+  poBox: string;
+  city: string;
+  /** Two-letter state code, e.g. 'CA'. */
+  region: string;
+  postalCode: string;
+}
+
 export const siteConfig = {
   orgName: 'Stanislaus Humanists',
+  // Canonical origin, no trailing slash. Structured data needs absolute URLs,
+  // and the canonical/Open Graph tags will need this too.
+  url: 'https://stanislaus-humanists.org',
   tagline: 'science | art | compassion',
   email: 'info@StanislausHumanists.org',
-  mailingAddress: 'PO Box 4476, Modesto, CA 95352',
+  // Kept as parts rather than one string so the JSON-LD PostalAddress and the
+  // text on the Contact section can't drift apart. formatMailingAddress()
+  // renders the display form.
+  mailingAddress: {
+    poBox: '4476',
+    city: 'Modesto',
+    region: 'CA',
+    postalCode: '95352',
+  } satisfies MailingAddress,
+  founded: '2012',
+  // Chapter of the American Humanist Association since November 20, 2013.
+  parentOrg: {
+    name: 'American Humanist Association',
+    url: 'https://americanhumanist.org',
+  },
   social: {
     facebook: 'https://www.facebook.com/groups/humanisthall/',
     meetup: 'https://www.meetup.com/Stanislaus-Humanists/',
@@ -10,6 +35,10 @@ export const siteConfig = {
   },
   copyright: '© Stanislaus Humanists Inc.',
 };
+
+export function formatMailingAddress(address: MailingAddress): string {
+  return `PO Box ${address.poBox}, ${address.city}, ${address.region} ${address.postalCode}`;
+}
 
 // "id" is the id of the <section> the link scrolls to, which the scroll-spy in
 // the header needs to map a scroll position back to a link. Keep this array in

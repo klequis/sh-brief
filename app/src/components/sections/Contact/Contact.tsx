@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 
-import { siteConfig } from '../../../data/site';
+import { formatMailingAddress, siteConfig } from '../../../data/site';
 import SocialLinks from '../../ui/SocialLinks';
 
 const Contact: Component = () => {
@@ -8,7 +8,7 @@ const Contact: Component = () => {
     <section id="contact" class="section">
       <div class="container">
         <h2>Contact</h2>
-        <p>{siteConfig.mailingAddress}</p>
+        <p>{formatMailingAddress(siteConfig.mailingAddress)}</p>
         <p>
           <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
         </p>

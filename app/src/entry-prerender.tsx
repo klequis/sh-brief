@@ -9,6 +9,7 @@ import { generateHydrationScript, renderToString } from 'solid-js/web';
 
 import App from './App';
 import type { RouterComponent } from './App';
+import { structuredDataScript } from './seo/structuredData';
 
 // StaticRouter rather than MemoryRouter: MemoryRouter installs the native link
 // and popstate handlers on mount, which reach for document and throw under
@@ -23,6 +24,8 @@ export function renderPage(): { html: string; head: string } {
     // renderToString emits Solid's hydration markers, which the browser entry
     // needs to adopt this markup rather than rebuild it.
     html: renderToString(() => <App router={PrerenderRouter} />),
-    head: generateHydrationScript(),
+    // JSON-LD goes in the head next to the hydration script. Both are
+    // build-time output; neither is part of the client bundle.
+    head: generateHydrationScript() + structuredDataScript(),
   };
 }
