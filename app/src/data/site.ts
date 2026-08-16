@@ -12,7 +12,7 @@ export const siteConfig = {
   // and the canonical/Open Graph tags will need this too.
   url: 'https://stanislaus-humanists.org',
   tagline: 'science | art | compassion',
-  email: 'info@StanislausHumanists.org',
+  email: 'info@stanislaus-humanists.org',
   // Kept as parts rather than one string so the JSON-LD PostalAddress and the
   // text on the Contact section can't drift apart. formatMailingAddress()
   // renders the display form.
