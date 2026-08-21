@@ -27,6 +27,12 @@ const JoinForm: Component = () => {
   const submit = async (event: Event) => {
     event.preventDefault();
     setError('');
+
+    if (!agrees()) {
+      setError('Please confirm you agree with the seven Humanist Principles.');
+      return;
+    }
+
     setBusy(true);
 
     try {
@@ -69,7 +75,7 @@ const JoinForm: Component = () => {
             type="radio"
             name="level"
             checked={level() === 'individual'}
-            onChange={() => setLevel('individual')}
+            onInput={() => setLevel('individual')}
           />{' '}
           Individual — $24.00/yr
         </label>
@@ -79,7 +85,7 @@ const JoinForm: Component = () => {
             type="radio"
             name="level"
             checked={level() === 'household'}
-            onChange={() => setLevel('household')}
+            onInput={() => setLevel('household')}
           />{' '}
           Household — $36.00/yr (up to 2 members)
         </label>
@@ -118,7 +124,7 @@ const JoinForm: Component = () => {
             <input
               type="checkbox"
               checked={sameAddress()}
-              onChange={(e) => setSameAddress(e.currentTarget.checked)}
+              onInput={(e) => setSameAddress(e.currentTarget.checked)}
             />{' '}
             Lives at the same address
           </label>
@@ -141,7 +147,7 @@ const JoinForm: Component = () => {
           <input
             type="checkbox"
             checked={agrees()}
-            onChange={(e) => setAgrees(e.currentTarget.checked)}
+            onInput={(e) => setAgrees(e.currentTarget.checked)}
           />{' '}
           I agree with the seven Humanist Principles
         </label>
@@ -156,7 +162,7 @@ const JoinForm: Component = () => {
           <input
             type="checkbox"
             checked={autoRenew()}
-            onChange={(e) => setAutoRenew(e.currentTarget.checked)}
+            onInput={(e) => setAutoRenew(e.currentTarget.checked)}
           />{' '}
           Renew my membership automatically each February 1. You can cancel at
           any time and stay a member through January 31 of the year you have
@@ -164,7 +170,7 @@ const JoinForm: Component = () => {
         </label>
       </p>
 
-      <button type="submit" disabled={busy() || !agrees()}>
+      <button type="submit" disabled={busy()}>
         {busy() ? 'Starting checkout…' : 'Continue to payment'}
       </button>
 
