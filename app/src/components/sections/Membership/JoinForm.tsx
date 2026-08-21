@@ -170,6 +170,13 @@ const JoinForm: Component = () => {
         </label>
       </p>
 
+      {/* TEMPORARY diagnostic. If these values change as you click, the
+          signals are live and hydration is working; if they stay put, the
+          event handlers never attached. Remove once the cause is known. */}
+      <p style={{ 'font-family': 'monospace', 'font-size': '0.85rem' }}>
+        level={level()} agrees={String(agrees())} autoRenew={String(autoRenew())}
+      </p>
+
       <button type="submit" disabled={busy()}>
         {busy() ? 'Starting checkout…' : 'Continue to payment'}
       </button>
