@@ -1,9 +1,18 @@
 {
-  // Assets-only Worker: no server code, just the built static site.
+  // Worker + static assets. This was assets-only until the join flow needed a
+  // server route: Stripe's secret key can't live in a browser, so something has
+  // to sit between the form and Stripe. See doc membership-payment-process/
+  // 02.implementation-plan.md §4.
+  //
+  // Assets are still served first. Cloudflare only invokes the Worker when no
+  // file in ./dist matches the path, so every existing page is served exactly
+  // as it was before "main" was added — the Worker sees /api/* and nothing else.
+  "name": "sh-brief",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-08-01",
   // Cloudflare Workers Builds runs from this directory (Root directory = "app"),
   // so "./dist" is app/dist, which is what `pnpm build` produces.
-  "name": "sh-brief",
-  "compatibility_date": "2026-08-01",
+  //
   // The site is served from the custom domain. Leaving the workers.dev route on
   // published a second, fully indexable copy at sh-brief.klequis.workers.dev —
   // same bytes, no noindex header — competing with the canonical host.
@@ -12,6 +21,9 @@
   "workers_dev": false,
   "preview_urls": true,
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    // The binding is what lets the Worker hand a request back to the asset
+    // server. Without it the Worker would have no way to serve the site.
+    "binding": "ASSETS"
   }
 }

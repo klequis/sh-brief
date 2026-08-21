@@ -29,3 +29,6 @@ gitignore
 # System Files
 .DS_Store
 Thumbs.db
+
+# Local secrets for `wrangler dev` (Stripe test key). Never committed.
+.dev.vars
