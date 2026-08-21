@@ -2,6 +2,8 @@ import type { Component } from 'solid-js';
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
 
+import JoinForm from './JoinForm';
+
 const principles = [
   { name: 'Knowledge', description: 'Understanding through observation and rational analysis.' },
   { name: 'Nature', description: 'Humans as part of natural evolutionary processes.' },
@@ -41,6 +43,7 @@ const Membership: Component = () => {
             )}
           </For>
         </ul>
+        <JoinForm />
         <p>
           Before joining, we encourage you to review the{' '}
           <A href="/about-humanism" noScroll>
