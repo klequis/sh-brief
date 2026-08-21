@@ -10,5 +10,7 @@ packages:
 # Keep both until the builder and CI agree on a version.
 allowBuilds:
   esbuild: true
+  workerd: true
 onlyBuiltDependencies:
   - esbuild
+  - workerd
