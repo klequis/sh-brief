@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
-import { Show } from 'solid-js';
+import { Show, createEffect } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { useAction, useSubmission } from '@solidjs/router';
+import { useSubmission } from '@solidjs/router';
 
 import { joinAction } from '../../../lib/join/actions';
 
@@ -24,7 +24,6 @@ const JoinForm: Component = () => {
     sameAddress: true,
   });
 
-  const join = useAction(joinAction);
   const submission = useSubmission(joinAction);
 
   const isHousehold = () => form.level === 'household';
@@ -34,16 +33,15 @@ const JoinForm: Component = () => {
     return result && !result.ok ? result.error : '';
   };
 
-  const handleSubmit = async (event: SubmitEvent) => {
-    event.preventDefault();
-    const result = await join(new FormData(event.currentTarget as HTMLFormElement));
-    // A returned envelope means the action handled it; the message renders from
-    // submission.result, so there is nothing to do here but leave.
+  // Stripe's checkout page is on another origin, so this is a document
+  // navigation rather than a router one.
+  createEffect(() => {
+    const result = submission.result;
     if (result?.ok) window.location.href = result.url;
-  };
+  });
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form action={joinAction} method="post">
       <h3>Join</h3>
 
       <fieldset>
