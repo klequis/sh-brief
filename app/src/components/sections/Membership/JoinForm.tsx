@@ -1,5 +1,9 @@
 import type { Component } from 'solid-js';
-import { Show, createSignal } from 'solid-js';
+import { Show } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import { useAction, useSubmission } from '@solidjs/router';
+
+import { joinAction } from '../../../lib/join/actions';
 
 /**
  * Skeleton join form. Unstyled on purpose — this exists to prove the path from
@@ -10,62 +14,36 @@ import { Show, createSignal } from 'solid-js';
  * The rule this follows: anything Stripe collects is not asked for here. No
  * name, no email, no address, and above all no payment information — that is
  * entered only on checkout.stripe.com, which is what keeps SH in PCI-DSS SAQ A.
+ *
+ * The field values are read off the FormData by the action, so the only state
+ * held here is what decides which fields are on screen.
  */
 const JoinForm: Component = () => {
-  const [level, setLevel] = createSignal<'household' | 'individual'>('individual');
-  const [agrees, setAgrees] = createSignal(false);
-  const [autoRenew, setAutoRenew] = createSignal(false);
-  const [secondMemberName, setSecondMemberName] = createSignal('');
-  const [secondMemberEmail, setSecondMemberEmail] = createSignal('');
-  const [sameAddress, setSameAddress] = createSignal(true);
-  const [secondMemberAddress, setSecondMemberAddress] = createSignal('');
-  const [busy, setBusy] = createSignal(false);
-  const [error, setError] = createSignal('');
+  const [form, setForm] = createStore({
+    level: 'individual' as 'individual' | 'household',
+    sameAddress: true,
+  });
 
-  const isHousehold = () => level() === 'household';
+  const join = useAction(joinAction);
+  const submission = useSubmission(joinAction);
 
-  const submit = async (event: Event) => {
+  const isHousehold = () => form.level === 'household';
+
+  const error = () => {
+    const result = submission.result;
+    return result && !result.ok ? result.error : '';
+  };
+
+  const handleSubmit = async (event: SubmitEvent) => {
     event.preventDefault();
-    setError('');
-
-    if (!agrees()) {
-      setError('Please confirm you agree with the seven Humanist Principles.');
-      return;
-    }
-
-    setBusy(true);
-
-    try {
-      const response = await fetch('/api/join', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          level: level(),
-          agreesToPrinciples: agrees(),
-          autoRenew: autoRenew(),
-          secondMemberName: isHousehold() ? secondMemberName() : '',
-          // Blank records "shares the household address". Nothing is copied:
-          // the household address lives on Stripe and does not exist yet.
-          secondMemberAddress:
-            isHousehold() && !sameAddress() ? secondMemberAddress() : '',
-          secondMemberEmail: isHousehold() ? secondMemberEmail() : '',
-        }),
-      });
-
-      const result = (await response.json()) as { url?: string; error?: string };
-      if (!response.ok || !result.url) {
-        throw new Error(result.error ?? 'Could not start checkout');
-      }
-
-      window.location.href = result.url;
-    } catch (caught) {
-      setError((caught as Error).message);
-      setBusy(false);
-    }
+    const result = await join(new FormData(event.currentTarget as HTMLFormElement));
+    // A returned envelope means the action handled it; the message renders from
+    // submission.result, so there is nothing to do here but leave.
+    if (result?.ok) window.location.href = result.url;
   };
 
   return (
-    <form onSubmit={submit}>
+    <form onSubmit={handleSubmit}>
       <h3>Join</h3>
 
       <fieldset>
@@ -74,8 +52,9 @@ const JoinForm: Component = () => {
           <input
             type="radio"
             name="level"
-            checked={level() === 'individual'}
-            onInput={() => setLevel('individual')}
+            value="individual"
+            checked={form.level === 'individual'}
+            onChange={() => setForm('level', 'individual')}
           />{' '}
           Individual — $24.00/yr
         </label>
@@ -84,8 +63,9 @@ const JoinForm: Component = () => {
           <input
             type="radio"
             name="level"
-            checked={level() === 'household'}
-            onInput={() => setLevel('household')}
+            value="household"
+            checked={form.level === 'household'}
+            onChange={() => setForm('level', 'household')}
           />{' '}
           Household — $36.00/yr (up to 2 members)
         </label>
@@ -95,21 +75,11 @@ const JoinForm: Component = () => {
         <fieldset>
           <legend>Second household member</legend>
           <label>
-            Name{' '}
-            <input
-              type="text"
-              value={secondMemberName()}
-              onInput={(e) => setSecondMemberName(e.currentTarget.value)}
-            />
+            Name <input type="text" name="second_member_name" />
           </label>
           <br />
           <label>
-            Email (optional){' '}
-            <input
-              type="email"
-              value={secondMemberEmail()}
-              onInput={(e) => setSecondMemberEmail(e.currentTarget.value)}
-            />
+            Email (optional) <input type="email" name="second_member_email" />
           </label>
           {/* Consent is a copy requirement, not a mechanism: the payer is
               entering someone else's address, so the label has to say what
@@ -123,20 +93,16 @@ const JoinForm: Component = () => {
           <label>
             <input
               type="checkbox"
-              checked={sameAddress()}
-              onInput={(e) => setSameAddress(e.currentTarget.checked)}
+              name="same_address"
+              checked={form.sameAddress}
+              onChange={(e) => setForm('sameAddress', e.currentTarget.checked)}
             />{' '}
             Lives at the same address
           </label>
-          <Show when={!sameAddress()}>
+          <Show when={!form.sameAddress}>
             <br />
             <label>
-              Address{' '}
-              <input
-                type="text"
-                value={secondMemberAddress()}
-                onInput={(e) => setSecondMemberAddress(e.currentTarget.value)}
-              />
+              Address <input type="text" name="second_member_address" />
             </label>
           </Show>
         </fieldset>
@@ -144,11 +110,7 @@ const JoinForm: Component = () => {
 
       <p>
         <label>
-          <input
-            type="checkbox"
-            checked={agrees()}
-            onInput={(e) => setAgrees(e.currentTarget.checked)}
-          />{' '}
+          <input type="checkbox" name="agrees_to_principles" />{' '}
           I agree with the seven Humanist Principles
         </label>
       </p>
@@ -159,26 +121,14 @@ const JoinForm: Component = () => {
           pre-tick this to lift the opt-in rate. See user story §9.1a. */}
       <p>
         <label>
-          <input
-            type="checkbox"
-            checked={autoRenew()}
-            onInput={(e) => setAutoRenew(e.currentTarget.checked)}
-          />{' '}
-          Renew my membership automatically each February 1. You can cancel at
-          any time and stay a member through January 31 of the year you have
-          paid for.
+          <input type="checkbox" name="auto_renew" /> Renew my membership
+          automatically each February 1. You can cancel at any time and stay a
+          member through January 31 of the year you have paid for.
         </label>
       </p>
 
-      {/* TEMPORARY diagnostic. If these values change as you click, the
-          signals are live and hydration is working; if they stay put, the
-          event handlers never attached. Remove once the cause is known. */}
-      <p style={{ 'font-family': 'monospace', 'font-size': '0.85rem' }}>
-        level={level()} agrees={String(agrees())} autoRenew={String(autoRenew())}
-      </p>
-
-      <button type="submit" disabled={busy()}>
-        {busy() ? 'Starting checkout…' : 'Continue to payment'}
+      <button type="submit" disabled={submission.pending}>
+        {submission.pending ? 'Starting checkout…' : 'Continue to payment'}
       </button>
 
       <Show when={error()}>
