@@ -57,3 +57,19 @@
 .link:hover {
   text-decoration: underline;
 }
+
+/* Shown only while /api/events is in flight, under the snapshot already on
+   screen. Deliberately quiet: it is a refresh notice, not an error. */
+.status {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* Sits under the cards: the page shows the next two, this is the way to the
+   rest of them on Meetup. */
+.allEvents {
+  margin: 1.25rem 0 0;
+  font-weight: 500;
+}

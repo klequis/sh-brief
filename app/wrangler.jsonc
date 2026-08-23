@@ -1,5 +1,6 @@
 {
-  // Assets-only Worker: no server code, just the built static site.
+  // Static site plus one route: the Worker serves /api/events and hands
+  // everything else to the asset server.
   // Cloudflare Workers Builds runs from this directory (Root directory = "app"),
   // so "./dist" is app/dist, which is what `pnpm build` produces.
   "name": "sh-brief",
@@ -11,7 +12,15 @@
   // sends X-Robots-Tag: noindex on those, so they were never the problem.
   "workers_dev": false,
   "preview_urls": true,
+  // The Worker exists only for /api/events; see src/worker/index.ts.
+  "main": "./src/worker/index.ts",
   "assets": {
-    "directory": "./dist"
+    "directory": "./dist",
+    // Binding so the Worker can hand every non-API request to the asset server.
+    "binding": "ASSETS"
+    // run_worker_first is deliberately absent. Requests matching a built file
+    // are served by the asset server without invoking the Worker, so a bug in
+    // it cannot take down the site. Setting it to true would route all traffic
+    // through the script and make it a single point of failure.
   }
 }

@@ -9,6 +9,10 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
+    // Node strips types to run src/lib/parseIcal.ts directly from
+    // scripts/generate-events.mjs; this keeps the codebase to syntax it can
+    // erase — no enum, namespace, or parameter properties.
+    "erasableSyntaxOnly": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
     "noEmit": true,
