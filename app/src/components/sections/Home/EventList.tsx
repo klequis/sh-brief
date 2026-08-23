@@ -9,6 +9,9 @@ import { upcoming } from '../../../data/upcomingEvents';
 import type { HumanistEvent } from '../../../lib/parseIcal';
 import styles from './EventList.module.css';
 
+// The page shows only the next two; this is where the rest of them live.
+const ALL_EVENTS_URL = 'https://www.meetup.com/stanislaus-humanists/events/';
+
 // Events are stored as 'YYYY-MM-DD' so they sort as plain strings, and shown as
 // 'August 8, 2026'. Pinned to en-US rather than the visitor's locale to keep the
 // format the one the site was written for.
@@ -96,6 +99,11 @@ const EventList: Component = () => {
             }}
           </For>
         </ul>
+        <p class={styles.allEvents}>
+          <a href={ALL_EVENTS_URL} target="_blank" rel="noopener noreferrer">
+            See all our events
+          </a>
+        </p>
       </Show>
       {/* The snapshot is already on screen, so a spinner would replace real
           content with less. This announces the refresh instead. */}
