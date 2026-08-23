@@ -10,5 +10,9 @@ packages:
 # Keep both until the builder and CI agree on a version.
 allowBuilds:
   esbuild: true
+  # Local dev runtime for `wrangler dev` only. Its build script stays off:
+  # the prebuilt @cloudflare/workerd-linux-64 binary runs fine without it, and
+  # Workers Builds never needs it.
+  workerd: false
 onlyBuiltDependencies:
   - esbuild
