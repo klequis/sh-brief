@@ -5,15 +5,16 @@
  *
  * Three nodes, all generated from the same typed data the page renders from:
  *   NGO      — the organization itself
- *   Event    — one per entry in the generated snapshot, the highest-value
- *              piece here, since it makes the group eligible for event rich
- *              results. The snapshot is only as fresh as the last build; the
+ *   Event    — one per event the page shows, the highest-value piece here,
+ *              since it makes the group eligible for event rich results. Built
+ *              from the snapshot, which is only as fresh as the last build; the
  *              live list visitors see comes from /api/events.
  *   FAQPage  — from data/faqs.ts
  */
 import type { EventLocation } from '../data/eventLocations';
 import { locationFor } from '../data/eventLocations';
 import { eventsSnapshot } from '../data/eventsSnapshot.generated';
+import { upcoming } from '../data/upcomingEvents';
 import type { HumanistEvent } from '../lib/parseIcal';
 import { faqs } from '../data/faqs';
 import { siteConfig } from '../data/site';
@@ -118,7 +119,8 @@ function faqPage() {
 export function buildStructuredData() {
   return {
     '@context': 'https://schema.org',
-    '@graph': [organization(), ...eventsSnapshot.map(event), faqPage()],
+    // Only the events the page actually renders — see data/upcomingEvents.ts.
+    '@graph': [organization(), ...upcoming(eventsSnapshot).map(event), faqPage()],
   };
 }
 

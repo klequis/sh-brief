@@ -5,6 +5,7 @@ import { isServer } from 'solid-js/web';
 import { formatEventLocation, locationFor } from '../../../data/eventLocations';
 import { eventsSnapshot } from '../../../data/eventsSnapshot.generated';
 import { siteConfig } from '../../../data/site';
+import { upcoming } from '../../../data/upcomingEvents';
 import type { HumanistEvent } from '../../../lib/parseIcal';
 import styles from './EventList.module.css';
 
@@ -25,18 +26,6 @@ function formatEventDate(iso: string): string {
   // it as-is rather than rendering "Invalid Date" on the live site.
   if (!year || !month || !day) return iso;
   return dateFormat.format(new Date(year, month - 1, day));
-}
-
-/**
- * The Worker already drops past events, but the snapshot is baked at build time
- * and goes stale. Filtering again here is what keeps a past event off the page
- * when the fallback is showing.
- */
-function upcoming(list: HumanistEvent[]): HumanistEvent[] {
-  const now = Date.now();
-  return list
-    .filter((item) => Date.parse(item.endsAt) > now)
-    .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
 }
 
 async function fetchEvents(): Promise<HumanistEvent[]> {
