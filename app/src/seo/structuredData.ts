@@ -14,7 +14,9 @@
 import type { EventLocation } from '../data/eventLocations';
 import { locationFor } from '../data/eventLocations';
 import { eventsSnapshot } from '../data/eventsSnapshot.generated';
+import { pinFor } from '../data/pinnedEvents';
 import { upcoming } from '../data/upcomingEvents';
+import { eventSummary } from '../lib/eventSummary';
 import type { HumanistEvent } from '../lib/parseIcal';
 import { faqs } from '../data/faqs';
 import { siteConfig } from '../data/site';
@@ -80,6 +82,10 @@ function organization() {
 
 function event(item: HumanistEvent) {
   const location = locationFor(item.title);
+  const description = eventSummary(item.description);
+  // A pinned event the group did not organize carries its own organizer.
+  // Claiming one we do not run would be a false statement in the markup.
+  const organizer = pinFor(item.id)?.organizer;
 
   return {
     '@type': 'Event',
@@ -87,7 +93,7 @@ function event(item: HumanistEvent) {
     name: item.title,
     startDate: item.startsAt,
     endDate: item.endsAt,
-    ...(item.description ? { description: item.description } : {}),
+    ...(description ? { description } : {}),
     eventStatus: 'https://schema.org/EventScheduled',
     eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
     ...(location ? { location: place(location) } : {}),
@@ -97,7 +103,9 @@ function event(item: HumanistEvent) {
     // Google treats an event image as recommended. There are no per-event
     // photos yet, so the org logo stands in rather than omitting the field.
     image: LOGO_URL,
-    organizer: { '@id': ORG_ID },
+    organizer: organizer
+      ? { '@type': 'Organization', name: organizer.name, url: organizer.url }
+      : { '@id': ORG_ID },
   };
 }
 

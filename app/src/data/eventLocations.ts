@@ -48,6 +48,18 @@ const rules: LocationRule[] = [
       region: 'CA',
     },
   },
+  {
+    // Held outdoors on the Capitol grounds, so the building's address is the
+    // closest thing to a venue the event has.
+    match: 'Freethought Day',
+    location: {
+      name: 'California State Capitol',
+      street: '1315 10th St',
+      city: 'Sacramento',
+      region: 'CA',
+      postalCode: '95814',
+    },
+  },
 ];
 
 /**

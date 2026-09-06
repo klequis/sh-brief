@@ -6,6 +6,7 @@ import { formatEventLocation, locationFor } from '../../../data/eventLocations';
 import { eventsSnapshot } from '../../../data/eventsSnapshot.generated';
 import { siteConfig } from '../../../data/site';
 import { upcoming } from '../../../data/upcomingEvents';
+import { eventSummary } from '../../../lib/eventSummary';
 import type { HumanistEvent } from '../../../lib/parseIcal';
 import styles from './EventList.module.css';
 
@@ -66,6 +67,9 @@ const EventList: Component = () => {
           <For each={shown()}>
             {(event) => {
               const location = locationFor(event.title);
+              // Feed descriptions run to thousands of characters of markdown;
+              // the card shows the opening paragraph as plain text.
+              const summary = eventSummary(event.description);
 
               return (
                 <li class={styles.card}>
@@ -77,8 +81,8 @@ const EventList: Component = () => {
                   <Show when={location}>
                     {(venue) => <p class={styles.where}>{formatEventLocation(venue())}</p>}
                   </Show>
-                  <Show when={event.description}>
-                    <p class={styles.description}>{event.description}</p>
+                  <Show when={summary}>
+                    <p class={styles.description}>{summary}</p>
                   </Show>
                   <Show when={event.url}>
                     <a
