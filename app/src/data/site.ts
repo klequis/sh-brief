@@ -43,6 +43,12 @@ export const siteConfig = {
     youtube: 'https://www.youtube.com/channel/UCE3x-htbRsEdutGlt7kNzZg/',
   },
   copyright: '© Stanislaus Humanists Inc.',
+  // Lighthearted line at the bottom of every redesign page. Expect it to change.
+  // In reserve:
+  //   'No code was written by humans to create this site. No animals were harmed, no humans were stressed, and no deities were consulted.'
+  //   'Made by people, a computer, and zero divine intervention. No animals were involved, and no humans were stressed out.'
+  redesignFootnote:
+    'No code was written to create this site. No animals were involved, no deities were consulted, and no humans were stressed out.',
 };
 
 export function formatMailingAddress(address: MailingAddress): string {

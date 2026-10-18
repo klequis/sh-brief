@@ -2,6 +2,9 @@
   /* Color */
   --color-primary: #206699;
   --color-primary-hover: #5bc7ff;
+  /* Hover for filled buttons: --color-primary-hover is too light to carry
+     white text. */
+  --color-primary-dark: #174d73;
   --color-bg: #ffffff;
   --color-bg-alt: #f4f4f4;
   --color-bg-subtle: #f8f8fa;

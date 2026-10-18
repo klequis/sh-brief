@@ -1,0 +1,166 @@
+/* Full-bleed photo with the text over it. Putting the photo behind the text
+   rather than above it is what lets a phone show the town, the next event and
+   the button without scrolling — a photo band on top would take a third of the
+   screen on its own. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: 2rem var(--section-padding-x) 2.5rem;
+  color: var(--color-text-inverse);
+  background: var(--color-footer-bg);
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Faces sit a little below the middle of the frame. */
+  object-position: 50% 45%;
+}
+
+/* Darkens the photo enough for white text to stay readable over the bright
+   parts of any replacement photo, not just this one. Heavier at the bottom,
+   where the smaller text sits. */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.45),
+    rgb(0 0 0 / 0.7)
+  );
+}
+
+.inner {
+  display: grid;
+  gap: 1.25rem;
+}
+
+/* Two classes so it outranks the global `.section h1` rule (blue, 44px),
+   which is the old page's hero style. */
+.hero .headline {
+  margin: 0;
+  color: var(--color-text-inverse);
+  font-weight: 500;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.lastGathering {
+  margin: 0.75rem 0 0;
+  font-size: 0.95rem;
+  color: var(--color-text-inverse-muted);
+}
+
+.nextEventCard {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem;
+  border-radius: 12px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+}
+
+.nextEventLabel {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+}
+
+.hero .nextEventTitle {
+  margin: 0.25rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.nextEventWhen {
+  margin: 0.5rem 0 0;
+  font-weight: 700;
+}
+
+.nextEventDetail {
+  margin: 0.15rem 0 0;
+  color: var(--color-text-muted);
+}
+
+/* The one button. Full width on a phone so it's an easy thumb target. */
+.primaryButton {
+  margin-top: 1rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* The site-wide link hover is a light blue, which white text can't be read
+   against. */
+.primaryButton:hover {
+  background: var(--color-primary-dark);
+  color: var(--color-text-inverse);
+}
+
+.primaryButton:focus-visible {
+  outline: 3px solid var(--color-primary-hover);
+  outline-offset: 2px;
+}
+
+.quietLink {
+  margin-top: 0.75rem;
+  align-self: center;
+  font-size: 0.95rem;
+}
+
+.photoCredit {
+  position: absolute;
+  right: var(--section-padding-x);
+  bottom: 0.5rem;
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--color-text-inverse-muted);
+  opacity: 0.8;
+}
+
+/* Desktop: headline on the left, event card on the right, and enough height
+   for the photo to read as a photo rather than a dark band. */
+@media (min-width: 900px) {
+  .hero {
+    padding-block: 5rem 4.5rem;
+  }
+
+  .inner {
+    grid-template-columns: 1.3fr 1fr;
+    align-items: end;
+    gap: 3rem;
+  }
+
+  .hero .headline {
+    font-size: 2.6rem;
+  }
+
+  .lastGathering {
+    font-size: 1.05rem;
+  }
+
+  .nextEventCard {
+    padding: 1.75rem;
+  }
+
+  .primaryButton {
+    align-self: stretch;
+  }
+}

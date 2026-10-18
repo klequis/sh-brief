@@ -28,6 +28,7 @@ const Footer: Component = () => {
         </nav>
         <SocialLinks class={styles.social} />
         <p class={styles.copyright}>{siteConfig.copyright}</p>
+        <p class={styles.redesignFootnote}>{siteConfig.redesignFootnote}</p>
       </div>
     </footer>
   );

@@ -107,6 +107,20 @@ ol {
   margin-block-start: 0;
 }
 
+/* Home: the hero runs edge to edge, so the section's padding moves onto the
+   content below it instead. */
+.section--hero {
+  padding: 0;
+}
+
+.section--hero > .section__body {
+  padding: var(--section-padding-y) var(--section-padding-x);
+}
+
+.section__body > .container:first-child > :first-child {
+  margin-block-start: 0;
+}
+
 .section--alt {
   background: var(--color-bg-alt);
 }

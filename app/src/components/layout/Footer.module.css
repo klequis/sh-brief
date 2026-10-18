@@ -28,3 +28,9 @@
   margin: 0;
   font-size: 0.85rem;
 }
+
+.redesignFootnote {
+  margin: 0;
+  font-size: 0.8rem;
+  font-style: italic;
+}

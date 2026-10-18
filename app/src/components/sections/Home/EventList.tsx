@@ -1,11 +1,8 @@
 import type { Component } from 'solid-js';
-import { createMemo, createResource, For, Show } from 'solid-js';
-import { isServer } from 'solid-js/web';
+import { For, Show } from 'solid-js';
 
 import { formatEventLocation, locationFor } from '../../../data/eventLocations';
-import { eventsSnapshot } from '../../../data/eventsSnapshot.generated';
 import { siteConfig } from '../../../data/site';
-import { upcoming } from '../../../data/upcomingEvents';
 import { eventSummary } from '../../../lib/eventSummary';
 import type { HumanistEvent } from '../../../lib/parseIcal';
 import styles from './EventList.module.css';
@@ -32,21 +29,10 @@ function formatEventDate(iso: string): string {
   return dateFormat.format(new Date(year, month - 1, day));
 }
 
-async function fetchEvents(): Promise<HumanistEvent[]> {
-  const response = await fetch('/api/events');
-  if (!response.ok) throw new Error(`/api/events returned ${response.status}`);
-  const data = (await response.json()) as { events: HumanistEvent[] };
-  return data.events;
-}
-
-const EventList: Component = () => {
-  // Source is false during prerender so the fetch never runs in Node; the
-  // built HTML ships the snapshot, which is what crawlers read.
-  const [live] = createResource(() => !isServer, fetchEvents);
-
-  // Falls back to the snapshot whenever the live list is missing — still
-  // loading, or the request failed. Either way the section keeps its content.
-  const shown = createMemo(() => upcoming(live.latest ?? eventsSnapshot));
+// The list comes from Home (createUpcomingEvents), which shares it with the
+// hero so the page fetches once.
+const EventList: Component<{ events: HumanistEvent[]; loading: boolean }> = (props) => {
+  const shown = () => props.events;
 
   return (
     <div id="events" class="container">
@@ -111,7 +97,7 @@ const EventList: Component = () => {
       </Show>
       {/* The snapshot is already on screen, so a spinner would replace real
           content with less. This announces the refresh instead. */}
-      <Show when={live.loading}>
+      <Show when={props.loading}>
         <p class={styles.status} aria-live="polite">
           Checking Meetup for the latest…
         </p>

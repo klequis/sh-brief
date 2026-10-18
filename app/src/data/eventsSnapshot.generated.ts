@@ -5,68 +5,28 @@
 // when the feed is unreachable. The live list comes from /api/events.
 import type { HumanistEvent } from '../lib/parseIcal';
 
-export const generatedAt = '2026-09-06T17:00:33.730Z';
+export const generatedAt = '2026-10-18T00:05:13.566Z';
 
 export const eventsSnapshot: HumanistEvent[] = [
   {
-    "id": "event_315836966",
-    "title": "Queen Bean Coffee Klatch (2nd Sunday)",
-    "date": "2026-09-13",
-    "time": "10:00 AM",
-    "startsAt": "2026-09-13T10:00:00-07:00",
-    "endsAt": "2026-09-13T12:00:00-07:00",
-    "description": "Stanislaus Humanists\nSecond Sunday of the month. Bring books, devices, or notepads while we solve the world's problems, exchange witty repartee, and drink delicious coffee.",
-    "url": "https://www.meetup.com/stanislaus-humanists/events/315836966/"
-  },
-  {
-    "id": "event_dnghztyjcmbjc",
-    "title": "Game Night",
-    "date": "2026-09-26",
-    "time": "5:00 PM",
-    "startsAt": "2026-09-26T17:00:00-07:00",
-    "endsAt": "2026-09-26T21:00:00-07:00",
-    "description": "Stanislaus Humanists\nCome and play some games with us! We will have a variety of games to choose from. It will be at Roundtable Pizza in Riverbank.",
-    "url": "https://www.meetup.com/stanislaus-humanists/events/dnghztyjcmbjc/"
-  },
-  {
-    "id": "event_316222488",
-    "title": "Queen Bean Coffee Klatch (2nd Sunday)",
-    "date": "2026-10-11",
-    "time": "10:00 AM",
-    "startsAt": "2026-10-11T10:00:00-07:00",
-    "endsAt": "2026-10-11T12:00:00-07:00",
-    "description": "Stanislaus Humanists\nSecond Sunday of the month. Bring books, devices, or notepads while we solve the world's problems, exchange witty repartee, and drink delicious coffee.",
-    "url": "https://www.meetup.com/stanislaus-humanists/events/316222488/"
-  },
-  {
-    "id": "event_316444772",
-    "title": "California Freethought Day 2026",
-    "date": "2026-10-11",
-    "time": "11:00 AM",
-    "startsAt": "2026-10-11T11:00:00-07:00",
-    "endsAt": "2026-10-11T17:30:00-07:00",
-    "description": "Stanislaus Humanists\n**California Freethought Day combines the fun and atmosphere of a fair with the education and activism of a conference. It's a festival of freethought.**\n\nOur theme this year is “**In Facts We Trust: Misinformation and Media Literacy**” as we highlight the vital role that reliable information, critical thinking, and media literacy play in a healthy, democratic society.\n\nJoin us at our **free event** to celebrate freedom of speech and thought, civic engagement, enthusiasm for science, social justice, and the separation of church and state.\n\nOur event will be **outdoors** at the California State Capitol Building and **livestreamed** via Facebook and YouTube.\n\n📅 **Program**\n\n11 AM - Community Fair\n12 PM - Program Starts (see the full [schedule](https://freethoughtday.org/main/schedule/))\n5:30 PM - Event Ends\n\n**🎤 Speakers, Live Entertainment, and More**\n\nOur 25th year features the following speakers, entertainers, podcasters, authors, and more:\n\n* **Jonathan Lopez** as \"Hellen Heels\"\n* **Alex Lee**, California State Assemblymember\n* **Candi Carpenter**, Musical Artist\n* **Austin Archer**, Comedian and Actor\n* **Bertha Vazquez**, Education Director for CFI\n* **Brian Dunning**, Host of the *Skeptoid* Podcast\n* **Forrest Valkai**, Science Communicator\n* **Thomas Smith**, Host of *Serious Inquiries Only*\n* **Jovan Bradley**, Podcast Host, Commentator\n* **Lydia Smith**, Podcaster\n* **Sean O'Brien**, as Robert Ingersoll\n* **Andy Swan**, as Uncle Sam\n* and more to come!\n\nWe're also awarding several scholarship winners and community leaders.\n\n**🖼️ Other Activities**\n\nThere's plenty to do at Freethought Day beyond the stage, including:\n\n* Connect with **Community Groups** like Planned Parenthood and the League of Women Voters\n* Juggle with **Uncle Sam**\n* Read our **Endorsement Gallery** from state and national officials\n* Walk through our **Freethought Gallery** of portraits from the past\n* Play while learning with **Science Alliance**\n* Participate in our **Art Gallery** and interactive exhibit\n\n**📺 Live Stream**\nWatch the live stream via Facebook and YouTube. Free registration will ensure you get reminders, a downloadable program, and links to watch the event.\n\n**🌳 In Person**\nJoin us outdoors at the Capitol and visit with community groups, meet our guests, enjoy a picnic on the grass, and more. Get a free printed, full-color program and be eligible for door prizes.\n\n**🎟 Free Registration**\nRegistration is free, supported by donations and sponsorships. To officially register, click here:\n[https://givebutter.com/CFD2026](https://givebutter.com/CFD2026)\n\nYour **free registration includes** a full-color program and a chance to win any of our door prize baskets valued together at $300 when you attend and complete our survey.\n\nYou can **support** California Freethought Day with a donation when you register. For $25, enjoy snacks and drinks throughout the day. For $85+, join us at our Fundraiser Reception on Saturday evening.\n\n**🔗 Other Links**\n\n* [Speaker Lineup](https://freethoughtday.org/main/) and [Schedule](https://freethoughtday.org/main/schedule/)\n* [Supporters' Reception](https://freethoughtday.org/main/reception/)\n* [Directions](https://freethoughtday.org/main/directions/)\n* [Support, Sponsor, and Volunteer](https://freethoughtday.org/support/)\n* Facebook Events ([in person](https://www.facebook.com/events/1661130848680268/) / [livestream](https://www.facebook.com/events/910908831714111/) / [reception](https://www.facebook.com/events/1365561449076186/))\n\n**📱 For updates and more, follow us on all major networks @FreethoughtDay.**",
-    "url": "https://www.meetup.com/stanislaus-humanists/events/316444772/"
-  },
-  {
-    "id": "event_dnghztyjcnbgc",
+    "id": "event_316846717",
     "title": "Game Night",
     "date": "2026-10-24",
     "time": "5:00 PM",
     "startsAt": "2026-10-24T17:00:00-07:00",
     "endsAt": "2026-10-24T21:00:00-07:00",
     "description": "Stanislaus Humanists\nCome and play some games with us! We will have a variety of games to choose from. It will be at Roundtable Pizza in Riverbank.",
-    "url": "https://www.meetup.com/stanislaus-humanists/events/dnghztyjcnbgc/"
+    "url": "https://www.meetup.com/stanislaus-humanists/events/316846717/"
   },
   {
-    "id": "event_qbjkvtyjcpblb",
+    "id": "event_316918943",
     "title": "Queen Bean Coffee Klatch (2nd Sunday)",
     "date": "2026-11-08",
     "time": "10:00 AM",
     "startsAt": "2026-11-08T10:00:00-08:00",
     "endsAt": "2026-11-08T12:00:00-08:00",
     "description": "Stanislaus Humanists\nSecond Sunday of the month. Bring books, devices, or notepads while we solve the world's problems, exchange witty repartee, and drink delicious coffee.",
-    "url": "https://www.meetup.com/stanislaus-humanists/events/qbjkvtyjcpblb/"
+    "url": "https://www.meetup.com/stanislaus-humanists/events/316918943/"
   },
   {
     "id": "event_dnghztyjcpblc",
