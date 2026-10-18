@@ -37,6 +37,43 @@
   );
 }
 
+/* Logo, name and tagline: the top of the page now that nothing sits above the
+   photo. White over the darkened photo instead of dark on the old white bar. */
+.brandRow {
+  margin-bottom: 1.5rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text-inverse);
+  text-decoration: none;
+}
+
+.brand:hover {
+  color: var(--color-text-inverse);
+}
+
+.logo {
+  width: clamp(44px, 10vw, 56px);
+  height: clamp(44px, 10vw, 56px);
+  border-radius: 50%;
+}
+
+.orgName {
+  display: block;
+  font-weight: 700;
+  font-size: clamp(20px, 5vw, 24px);
+  line-height: 1.15;
+}
+
+.tagline {
+  display: block;
+  font-size: 15px;
+  color: var(--color-text-inverse-muted);
+}
+
 .inner {
   display: grid;
   gap: 1.25rem;
@@ -139,7 +176,11 @@
    for the photo to read as a photo rather than a dark band. */
 @media (min-width: 900px) {
   .hero {
-    padding-block: 5rem 4.5rem;
+    padding-block: 2rem 4.5rem;
+  }
+
+  .brandRow {
+    margin-bottom: 3.5rem;
   }
 
   .inner {

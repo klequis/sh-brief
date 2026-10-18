@@ -3,7 +3,9 @@ import { createEffect, onCleanup, onMount } from 'solid-js';
 import type { RouteSectionProps } from '@solidjs/router';
 
 import Header from '../components/layout/Header';
+import Hero from '../components/layout/Hero';
 import Footer from '../components/layout/Footer';
+import { UpcomingEventsProvider } from '../hooks/createUpcomingEvents';
 
 // HashRouter consumes the whole "#..." as the route path, so there's no
 // separate URL fragment left for the browser's native anchor scroll to use.
@@ -18,7 +20,13 @@ function targetIdFromPathname(pathname: string): string {
   return segments.length > 0 ? segments[segments.length - 1] : 'home';
 }
 
+// "Home" goes to the very top so the hero shows; #home itself starts below the
+// hero and the nav.
 function scrollToSection(id: string) {
+  if (id === 'home') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -47,11 +55,12 @@ const RootLayout: Component<RouteSectionProps> = (props) => {
   });
 
   return (
-    <>
+    <UpcomingEventsProvider>
+      <Hero />
       <Header />
       <main>{props.children}</main>
       <Footer />
-    </>
+    </UpcomingEventsProvider>
   );
 };
 

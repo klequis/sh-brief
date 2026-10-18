@@ -1,9 +1,11 @@
 import type { Component } from 'solid-js';
 import { Show } from 'solid-js';
+import { A } from '@solidjs/router';
 
-import { demoActionNetwork, demoHeroPhoto, demoLastGathering } from '../../../data/demoContent';
-import { locationFor } from '../../../data/eventLocations';
-import type { HumanistEvent } from '../../../lib/parseIcal';
+import { demoActionNetwork, demoHeroPhoto, demoLastGathering } from '../../data/demoContent';
+import { locationFor } from '../../data/eventLocations';
+import { siteConfig } from '../../data/site';
+import { useUpcomingEvents } from '../../hooks/createUpcomingEvents';
 import styles from './Hero.module.css';
 
 // 'Sat, Oct 24' — short enough to sit on one line next to the time on a phone.
@@ -23,11 +25,14 @@ function formatShortDate(iso: string): string {
 }
 
 /**
- * Everything above the fold on the home page: the town, the next event and the
- * one button. Built to pass the playbook's Stranger Test — a newcomer on a
- * phone should know when and where the next event is without scrolling.
+ * The top of the page, above the nav: the brand, the town, the next event and
+ * the one button, all over the photo. Built to pass the playbook's Stranger
+ * Test — a newcomer on a phone should know when and where the next event is
+ * without scrolling.
  */
-const Hero: Component<{ nextEvent: HumanistEvent | undefined }> = (props) => {
+const Hero: Component = () => {
+  const upcomingEvents = useUpcomingEvents();
+  const nextEvent = () => upcomingEvents.events()[0];
   const lastGatheringDate = formatShortDate(demoLastGathering.date).replace(/^\w+, /, '');
 
   return (
@@ -39,6 +44,15 @@ const Hero: Component<{ nextEvent: HumanistEvent | undefined }> = (props) => {
         // Above the fold, so it should start loading right away.
         fetchpriority="high"
       />
+      <div class={`container ${styles.brandRow}`}>
+        <A href="/" noScroll class={styles.brand}>
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" class={styles.logo} />
+          <span>
+            <span class={styles.orgName}>{siteConfig.orgName}</span>
+            <span class={styles.tagline}>{siteConfig.tagline}</span>
+          </span>
+        </A>
+      </div>
       <div class={`container ${styles.inner}`}>
         <div class={styles.intro}>
           <h1 class={styles.headline}>
@@ -53,7 +67,7 @@ const Hero: Component<{ nextEvent: HumanistEvent | undefined }> = (props) => {
 
         <div class={styles.nextEventCard}>
           <Show
-            when={props.nextEvent}
+            when={nextEvent()}
             // No future event in the feed: say so warmly and make the email
             // signup the one button, rather than showing an empty card.
             fallback={
@@ -74,16 +88,16 @@ const Hero: Component<{ nextEvent: HumanistEvent | undefined }> = (props) => {
               </>
             }
           >
-            {(nextEvent) => {
-              const venue = locationFor(nextEvent().title);
+            {(shownEvent) => {
+              const venue = locationFor(shownEvent().title);
               return (
                 <>
                   <p class={styles.nextEventLabel}>Next get-together</p>
-                  <h2 class={styles.nextEventTitle}>{nextEvent().title}</h2>
+                  <h2 class={styles.nextEventTitle}>{shownEvent().title}</h2>
                   <p class={styles.nextEventWhen}>
-                    <time datetime={nextEvent().startsAt}>
-                      {formatShortDate(nextEvent().date)}
-                      {nextEvent().time ? ` · ${nextEvent().time}` : ''}
+                    <time datetime={shownEvent().startsAt}>
+                      {formatShortDate(shownEvent().date)}
+                      {shownEvent().time ? ` · ${shownEvent().time}` : ''}
                     </time>
                   </p>
                   <Show when={venue}>

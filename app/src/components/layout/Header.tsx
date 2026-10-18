@@ -2,7 +2,7 @@ import type { Component } from 'solid-js';
 import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { A } from '@solidjs/router';
 
-import { siteConfig, navLinks } from '../../data/site';
+import { navLinks } from '../../data/site';
 import { createActiveSection } from '../../hooks/createActiveSection';
 import styles from './Header.module.css';
 
@@ -79,19 +79,10 @@ const Header: Component = () => {
   });
 
   return (
+    // Menu only: the brand lives in the Hero, above this bar. The bar is in
+    // the flow under the hero and sticks to the top once scrolled past.
     <header ref={headerRef} class={styles.header}>
       <div class={`container ${styles.inner}`}>
-        <A href="/" noScroll class={styles.brand}>
-          <img
-            src={`${import.meta.env.BASE_URL}logo.png`}
-            alt=""
-            class={styles.logo}
-          />
-          <span>
-            <span class={styles.orgName}>{siteConfig.orgName}</span>
-            <span class={styles.tagline}>{siteConfig.tagline}</span>
-          </span>
-        </A>
         <nav
           ref={navRef}
           class={styles.nav}

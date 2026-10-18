@@ -26,21 +26,11 @@
      extra rows on narrow screens and no fixed number can track that. The value
      here is the pre-hydration fallback. Feeding the measured height back into
      min-height would make the two chase each other, hence the split. */
-  --header-min-height: 96px;
-  --header-height: 96px;
+  --header-min-height: 56px;
+  --header-height: 56px;
   --content-max-width: 1100px;
   --section-padding-y: 4rem;
   --section-padding-x: 1.5rem;
-}
-
-/* The header stacks into two rows here (see Header.module.css). Only the
-   fallback needs a matching value now — once Header.tsx mounts, the measured
-   height takes over at every width. */
-@media (max-width: 1100px) {
-  :root {
-    --header-min-height: 108px;
-    --header-height: 108px;
-  }
 }
 
 /* 1.5rem gutters cost 48px of a 320px line. The header and the sections both

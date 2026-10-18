@@ -1,5 +1,5 @@
-import type { Accessor } from 'solid-js';
-import { createMemo, createResource } from 'solid-js';
+import type { Accessor, ParentComponent } from 'solid-js';
+import { createComponent, createContext, createMemo, createResource, useContext } from 'solid-js';
 import { isServer } from 'solid-js/web';
 
 import { eventsSnapshot } from '../data/eventsSnapshot.generated';
@@ -13,16 +13,16 @@ async function fetchEvents(): Promise<HumanistEvent[]> {
   return data.events;
 }
 
-/**
- * The events the home page shows, live from /api/events with the build-time
- * snapshot as fallback. Created once in Home and handed to both the hero and
- * the event list, so the page makes one request and the two can't disagree
- * about which event is next.
- */
-export function createUpcomingEvents(): {
+export interface UpcomingEvents {
   events: Accessor<HumanistEvent[]>;
   loading: Accessor<boolean>;
-} {
+}
+
+/**
+ * The events the page shows, live from /api/events with the build-time
+ * snapshot as fallback.
+ */
+export function createUpcomingEvents(): UpcomingEvents {
   // Source is false during prerender so the fetch never runs in Node; the
   // built HTML ships the snapshot, which is what crawlers read.
   const [live] = createResource(() => !isServer, fetchEvents);
@@ -32,4 +32,25 @@ export function createUpcomingEvents(): {
   const events = createMemo(() => upcoming(live.latest ?? eventsSnapshot));
 
   return { events, loading: () => live.loading };
+}
+
+const UpcomingEventsContext = createContext<UpcomingEvents>();
+
+/**
+ * Created once in RootLayout and read by both the hero (above the nav) and the
+ * event list (in the Home section), so the page makes one request and the two
+ * can't disagree about which event is next.
+ */
+export const UpcomingEventsProvider: ParentComponent = (props) =>
+  createComponent(UpcomingEventsContext.Provider, {
+    value: createUpcomingEvents(),
+    get children() {
+      return props.children;
+    },
+  });
+
+export function useUpcomingEvents(): UpcomingEvents {
+  const upcomingEvents = useContext(UpcomingEventsContext);
+  if (!upcomingEvents) throw new Error('useUpcomingEvents needs an UpcomingEventsProvider');
+  return upcomingEvents;
 }
