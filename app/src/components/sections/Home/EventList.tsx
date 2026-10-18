@@ -36,7 +36,7 @@ const EventList: Component<{ events: HumanistEvent[]; loading: boolean }> = (pro
 
   return (
     <div id="events" class="container">
-      <h2>Upcoming Events</h2>
+      <h2>Also coming up</h2>
       <Show
         when={shown().length > 0}
         fallback={

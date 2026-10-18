@@ -56,8 +56,9 @@ const RootLayout: Component<RouteSectionProps> = (props) => {
 
   return (
     <UpcomingEventsProvider>
-      <Hero />
+      {/* Header first so it's first in tab order; it's fixed over the hero. */}
       <Header />
+      <Hero />
       <main>{props.children}</main>
       <Footer />
     </UpcomingEventsProvider>

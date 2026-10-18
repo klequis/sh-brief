@@ -11,7 +11,8 @@ const Home: Component = () => {
 
   return (
     <section id="home" class="section">
-      <EventList events={upcomingEvents.events()} loading={upcomingEvents.loading()} />
+      {/* The hero already shows the next event; the list picks up after it. */}
+      <EventList events={upcomingEvents.events().slice(1)} loading={upcomingEvents.loading()} />
       <div class="container">
         <h2>What is Humanism?</h2>
         <p>

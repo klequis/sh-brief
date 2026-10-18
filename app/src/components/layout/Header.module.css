@@ -1,91 +1,180 @@
-/* Menu-only bar under the hero. Sticky, so once the hero scrolls away it holds
-   at the top of the screen. The brand that used to share this bar is in
-   Hero.tsx now. */
+/* Fixed over the top of the page. Solid white by default; .headerOverHero
+   makes it see-through with white text while the hero photo is under it. */
 .header {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  inset: 0 0 auto;
   z-index: 10;
-  /* min-height, not height: the nav wraps on phones and must not clip. Reads
-     --header-min-height rather than --header-height on purpose — the latter is
-     the measured height Header.tsx writes back, and using it here would make
-     the two chase each other. */
-  min-height: var(--header-min-height);
   background: var(--color-bg);
+  color: var(--color-text);
   border-bottom: 1px solid var(--color-bg-alt);
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.headerOverHero {
+  background: transparent;
+  border-bottom-color: transparent;
+  color: var(--color-text-inverse);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    transition: none;
+  }
 }
 
 .inner {
-  min-height: var(--header-min-height);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.375rem var(--section-padding-x);
-}
-
-.nav {
-  /* position: relative makes the nav the offsetParent of its links, so the
-     centring maths in Header.tsx can use offsetLeft directly. */
   position: relative;
   display: flex;
-  /* Wrap rather than scroll: a scrolled-off link reads as a missing link,
-     since there's nothing on a touch screen to advertise that the strip
-     scrolls. Wrapping only happens once the pills genuinely don't fit. Safe
-     because Header.tsx measures the resulting height. */
-  flex-wrap: wrap;
-  justify-content: center;
-  min-width: 0;
-  gap: 0.5rem;
-  /* Room for the focus ring. */
-  padding-block: 3px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: var(--header-min-height);
+  padding: 0.5rem var(--section-padding-x);
 }
 
-/* Sizes are px, matching global.css: rem resolves against the 16px root while
-   body text is 18px. */
-.navLink {
-  flex: none;
-  padding: 7px 14px;
-  border-radius: 999px;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  color: inherit;
   text-decoration: none;
-  white-space: nowrap;
+}
+
+.brand:hover {
+  color: inherit;
+}
+
+.logo {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.orgName {
+  display: block;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.15;
+}
+
+.tagline {
+  display: block;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ---- Phones: menu button and dropdown ---- */
+
+.menuButton {
+  flex: none;
+  display: grid;
+  place-items: center;
+  /* 44px: the minimum comfortable touch target. */
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.menuButton:focus-visible {
+  outline: 3px solid var(--color-primary-hover);
+  outline-offset: 2px;
+}
+
+/* Hidden until opened, then a full-width panel under the bar with big,
+   stacked links. */
+.nav {
+  display: none;
+}
+
+.navOpen {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem var(--section-padding-x) 1rem;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-bg-alt);
+  box-shadow: 0 12px 24px rgb(0 0 0 / 0.15);
+}
+
+.navLink {
+  padding: 0.75rem 0.5rem;
+  border-radius: 8px;
   color: var(--color-primary);
-  font-size: 17px;
+  font-size: 18px;
+  text-decoration: none;
 }
 
 .navLink:hover {
   color: var(--color-primary-hover);
 }
 
-.navLinkActive,
-.navLinkActive:hover {
-  background: var(--color-primary);
-  color: var(--color-text-inverse);
-  font-weight: 500;
-}
-
-/* .navWrapped is set by Header.tsx whenever the pills actually occupy more than
-   one row. Once wrapped, a filled pill is too heavy a mark for the bar; weight
-   plus an underline carries "you are here" instead. Both selectors, because
-   the base rule states its own :hover and would otherwise win the fill back. */
-.navWrapped .navLinkActive,
-.navWrapped .navLinkActive:hover {
-  background: none;
-  color: var(--color-primary);
+.navLinkActive {
   font-weight: 700;
-  /* Offset clears the descenders in "Membership". */
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
 }
 
-/* Phone widths: small enough that the five pills wrap to two rows rather than
-   three, down to ~340px. */
-@media (max-width: 600px) {
-  .nav {
-    gap: 0.375rem;
+/* ---- Desktop: links inline, no menu button ---- */
+
+@media (min-width: 760px) {
+  .menuButton {
+    display: none;
+  }
+
+  .orgName {
+    font-size: 22px;
+  }
+
+  .logo {
+    width: 52px;
+    height: 52px;
+  }
+
+  .nav,
+  .navOpen {
+    position: static;
+    display: flex;
+    flex-direction: row;
+    gap: 0.25rem;
+    padding: 0;
+    background: none;
+    border: 0;
+    box-shadow: none;
   }
 
   .navLink {
-    padding: 5px 10px;
-    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 16px;
+    white-space: nowrap;
+    color: inherit;
+  }
+
+  /* Over the photo the links are white; underline marks "you are here". */
+  .navLinkActive {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+  }
+
+  /* Once the bar is solid, the links take the brand blue. */
+  .header:not(.headerOverHero) .navLink {
+    color: var(--color-primary);
+  }
+
+  .header:not(.headerOverHero) .navLink:hover,
+  .headerOverHero .navLink:hover {
+    color: var(--color-primary-hover);
   }
 }

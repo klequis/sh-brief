@@ -5,7 +5,7 @@
 // when the feed is unreachable. The live list comes from /api/events.
 import type { HumanistEvent } from '../lib/parseIcal';
 
-export const generatedAt = '2026-10-18T00:21:06.928Z';
+export const generatedAt = '2026-10-18T00:35:20.665Z';
 
 export const eventsSnapshot: HumanistEvent[] = [
   {

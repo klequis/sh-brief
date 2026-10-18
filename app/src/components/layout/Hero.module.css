@@ -1,12 +1,13 @@
-/* Full-bleed photo with the text over it. Putting the photo behind the text
-   rather than above it is what lets a phone show the town, the next event and
-   the button without scrolling — a photo band on top would take a third of the
-   screen on its own. */
+/* Full-bleed photo with the text over it, starting at the very top of the page
+   under the see-through header. Photo behind the text rather than above it is
+   what lets a phone show the town, the next event and the button without
+   scrolling. */
 .hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 2rem var(--section-padding-x) 2.5rem;
+  /* Clears the fixed header, which Header.tsx measures into --header-height. */
+  padding: calc(var(--header-height) + 1.5rem) var(--section-padding-x) 2.5rem;
   color: var(--color-text-inverse);
   background: var(--color-footer-bg);
 }
@@ -22,9 +23,10 @@
   object-position: 50% 45%;
 }
 
-/* Darkens the photo enough for white text to stay readable over the bright
-   parts of any replacement photo, not just this one. Heavier at the bottom,
-   where the smaller text sits. */
+/* Darkens the photo enough for white text over the bright parts of any
+   replacement photo. Darker at the top (under the header and headline) and the
+   bottom (under the event panel), lighter through the middle so the faces
+   still read as faces. */
 .hero::after {
   content: '';
   position: absolute;
@@ -32,60 +34,23 @@
   z-index: -1;
   background: linear-gradient(
     to bottom,
-    rgb(0 0 0 / 0.45),
-    rgb(0 0 0 / 0.7)
+    rgb(0 0 0 / 0.6),
+    rgb(0 0 0 / 0.35) 45%,
+    rgb(0 0 0 / 0.65)
   );
-}
-
-/* Logo, name and tagline: the top of the page now that nothing sits above the
-   photo. White over the darkened photo instead of dark on the old white bar. */
-.brandRow {
-  margin-bottom: 1.5rem;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--color-text-inverse);
-  text-decoration: none;
-}
-
-.brand:hover {
-  color: var(--color-text-inverse);
-}
-
-.logo {
-  width: clamp(44px, 10vw, 56px);
-  height: clamp(44px, 10vw, 56px);
-  border-radius: 50%;
-}
-
-.orgName {
-  display: block;
-  font-weight: 700;
-  font-size: clamp(20px, 5vw, 24px);
-  line-height: 1.15;
-}
-
-.tagline {
-  display: block;
-  font-size: 15px;
-  color: var(--color-text-inverse-muted);
 }
 
 .inner {
   display: grid;
-  gap: 1.25rem;
+  gap: 1.5rem;
 }
 
-/* Two classes so it outranks the global `.section h1` rule (blue, 44px),
-   which is the old page's hero style. */
+/* Two classes so it outranks the global `.section h1` rule. */
 .hero .headline {
   margin: 0;
   color: var(--color-text-inverse);
   font-weight: 500;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   line-height: 1.2;
   text-wrap: balance;
 }
@@ -96,46 +61,53 @@
   color: var(--color-text-inverse-muted);
 }
 
+/* The next event, on a dark see-through panel instead of a white card. The
+   white card was the brightest thing on screen and competed with the button;
+   now the button is the one bright element, and the photo shows through. */
 .nextEventCard {
   display: flex;
   flex-direction: column;
-  padding: 1.25rem;
+  padding: 1rem 1.1rem 0.9rem;
+  border: 1px solid rgb(255 255 255 / 0.18);
   border-radius: 12px;
-  background: var(--color-bg);
-  color: var(--color-text);
-  box-shadow: 0 8px 24px rgb(0 0 0 / 0.25);
+  background: rgb(0 0 0 / 0.45);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
 }
 
 .nextEventLabel {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--color-primary);
+  color: var(--color-primary-hover);
 }
 
 .hero .nextEventTitle {
-  margin: 0.25rem 0 0;
-  font-size: 1.35rem;
+  margin: 0.2rem 0 0;
+  color: var(--color-text-inverse);
+  font-size: 1.2rem;
   font-weight: 500;
   line-height: 1.2;
 }
 
-.nextEventWhen {
-  margin: 0.5rem 0 0;
-  font-weight: 700;
+.nextEventWhenWhere,
+.nextEventDetail {
+  margin: 0.3rem 0 0;
+  font-size: 0.95rem;
+  color: var(--color-text-inverse-muted);
 }
 
-.nextEventDetail {
-  margin: 0.15rem 0 0;
-  color: var(--color-text-muted);
+.nextEventWhen {
+  font-weight: 700;
+  color: var(--color-text-inverse);
 }
 
 /* The one button. Full width on a phone so it's an easy thumb target. */
 .primaryButton {
-  margin-top: 1rem;
-  padding: 0.85rem 1.25rem;
+  margin-top: 0.9rem;
+  padding: 0.75rem 1.25rem;
   border-radius: 8px;
   background: var(--color-primary);
   color: var(--color-text-inverse);
@@ -157,9 +129,14 @@
 }
 
 .quietLink {
-  margin-top: 0.75rem;
+  margin-top: 0.6rem;
   align-self: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  color: var(--color-text-inverse);
+}
+
+.quietLink:hover {
+  color: var(--color-primary-hover);
 }
 
 .photoCredit {
@@ -172,15 +149,11 @@
   opacity: 0.8;
 }
 
-/* Desktop: headline on the left, event card on the right, and enough height
+/* Desktop: headline on the left, event panel on the right, and enough height
    for the photo to read as a photo rather than a dark band. */
 @media (min-width: 900px) {
   .hero {
-    padding-block: 2rem 4.5rem;
-  }
-
-  .brandRow {
-    margin-bottom: 3.5rem;
+    padding-block: calc(var(--header-height) + 5rem) 4.5rem;
   }
 
   .inner {
@@ -198,10 +171,6 @@
   }
 
   .nextEventCard {
-    padding: 1.75rem;
-  }
-
-  .primaryButton {
-    align-self: stretch;
+    padding: 1.4rem;
   }
 }

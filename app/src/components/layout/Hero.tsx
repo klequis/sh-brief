@@ -1,11 +1,10 @@
 import type { Component } from 'solid-js';
 import { Show } from 'solid-js';
-import { A } from '@solidjs/router';
 
 import { demoActionNetwork, demoHeroPhoto, demoLastGathering } from '../../data/demoContent';
 import { locationFor } from '../../data/eventLocations';
-import { siteConfig } from '../../data/site';
 import { useUpcomingEvents } from '../../hooks/createUpcomingEvents';
+import { HERO_ID } from './Header';
 import styles from './Hero.module.css';
 
 // 'Sat, Oct 24' — short enough to sit on one line next to the time on a phone.
@@ -25,8 +24,8 @@ function formatShortDate(iso: string): string {
 }
 
 /**
- * The top of the page, above the nav: the brand, the town, the next event and
- * the one button, all over the photo. Built to pass the playbook's Stranger
+ * The top of the page, under the see-through header: the town, the next event
+ * and the one button, over the photo. Built to pass the playbook's Stranger
  * Test — a newcomer on a phone should know when and where the next event is
  * without scrolling.
  */
@@ -36,7 +35,7 @@ const Hero: Component = () => {
   const lastGatheringDate = formatShortDate(demoLastGathering.date).replace(/^\w+, /, '');
 
   return (
-    <div class={styles.hero}>
+    <div id={HERO_ID} class={styles.hero}>
       <img
         class={styles.photo}
         src={`${import.meta.env.BASE_URL}${demoHeroPhoto.src}`}
@@ -44,15 +43,6 @@ const Hero: Component = () => {
         // Above the fold, so it should start loading right away.
         fetchpriority="high"
       />
-      <div class={`container ${styles.brandRow}`}>
-        <A href="/" noScroll class={styles.brand}>
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" class={styles.logo} />
-          <span>
-            <span class={styles.orgName}>{siteConfig.orgName}</span>
-            <span class={styles.tagline}>{siteConfig.tagline}</span>
-          </span>
-        </A>
-      </div>
       <div class={`container ${styles.inner}`}>
         <div class={styles.intro}>
           <h1 class={styles.headline}>
@@ -94,19 +84,17 @@ const Hero: Component = () => {
                 <>
                   <p class={styles.nextEventLabel}>Next get-together</p>
                   <h2 class={styles.nextEventTitle}>{shownEvent().title}</h2>
-                  <p class={styles.nextEventWhen}>
-                    <time datetime={shownEvent().startsAt}>
+                  {/* When and where on one line: two lines of detail was most
+                      of what made the old white card tall. */}
+                  <p class={styles.nextEventWhenWhere}>
+                    <time class={styles.nextEventWhen} datetime={shownEvent().startsAt}>
                       {formatShortDate(shownEvent().date)}
                       {shownEvent().time ? ` · ${shownEvent().time}` : ''}
                     </time>
+                    <Show when={venue}>
+                      {(v) => ` · ${v().name}, ${v().city}`}
+                    </Show>
                   </p>
-                  <Show when={venue}>
-                    {(v) => (
-                      <p class={styles.nextEventDetail}>
-                        {v().name}, {v().city}
-                      </p>
-                    )}
-                  </Show>
                   <a
                     class={styles.primaryButton}
                     href={demoActionNetwork.rsvpUrl}

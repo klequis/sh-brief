@@ -1,104 +1,138 @@
 import type { Component } from 'solid-js';
-import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
+import { For, createSignal, onCleanup, onMount } from 'solid-js';
 import { A } from '@solidjs/router';
 
-import { navLinks } from '../../data/site';
+import { navLinks, siteConfig } from '../../data/site';
 import { createActiveSection } from '../../hooks/createActiveSection';
 import styles from './Header.module.css';
 
-const prefersReducedMotion = () =>
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/** id of the hero element. The bar is see-through while the hero is under it. */
+export const HERO_ID = 'hero';
 
+/**
+ * Fixed top bar: brand on the left, menu on the right. Links inline on desktop;
+ * a menu button (hamburger) on phones, where five links would otherwise wrap
+ * into two rows of pills.
+ *
+ * The bar sits over the hero photo, see-through, and turns solid once the hero
+ * has scrolled out from under it — so the photo starts at the very top of the
+ * page and the brand stays on screen while reading the sections.
+ */
 const Header: Component = () => {
   const activeId = createActiveSection(navLinks.map((link) => link.id));
-
-  const [navWrapped, setNavWrapped] = createSignal(false);
+  const [isOverHero, setIsOverHero] = createSignal(true);
+  const [isMenuOpen, setIsMenuOpen] = createSignal(false);
 
   let headerRef: HTMLElement | undefined;
-  let navRef: HTMLElement | undefined;
-  const linkRefs: Record<string, HTMLAnchorElement> = {};
+  let menuButtonRef: HTMLButtonElement | undefined;
 
-  // Sections offset their scroll targets by --header-height so headings don't
-  // land under the sticky bar. The bar's height isn't a constant: the nav wraps
-  // to a second row on phones, and to a third on the narrowest ones. So publish
-  // the measured height instead of hardcoding one per breakpoint.
-  //
-  // This only ever writes --header-height, never --header-min-height, which is
-  // what the header's own CSS sizes against — writing the measured value into
-  // the property that determines it would be a feedback loop.
   onMount(() => {
     const header = headerRef;
-    const nav = navRef;
-    if (!header || !nav) return;
+    if (!header) return;
 
+    // Sections offset their scroll targets by --header-height so headings
+    // don't land under the bar. Published as a measured value rather than a
+    // constant so it follows the logo and font sizes at every width.
     const measure = () => {
       document.documentElement.style.setProperty(
         '--header-height',
-        // getBoundingClientRect over the observer's contentRect: the latter
-        // excludes the header's bottom border, leaving headings 1px high.
         `${Math.ceil(header.getBoundingClientRect().height)}px`,
       );
-
-      // Whether the pills wrap is a question about the rendered result, not
-      // about viewport width: it depends on the label text, the font that
-      // actually loaded, and how many links there are. Comparing the first and
-      // last pill's offsetTop answers it directly, and keeps answering it if
-      // the nav list changes. (offsetTop is relative to the nav, which is
-      // position: relative — same reason the centring maths below works.)
-      const first = linkRefs[navLinks[0].id];
-      const last = linkRefs[navLinks[navLinks.length - 1].id];
-      setNavWrapped(!!first && !!last && last.offsetTop > first.offsetTop);
     };
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(header);
 
-    // Both elements: the header catches most changes, but a wrap that fits
-    // inside --header-min-height wouldn't alter the header's own box, and the
-    // nav's would still change.
-    const observer = new ResizeObserver(measure);
-    observer.observe(header);
-    observer.observe(nav);
-    onCleanup(() => observer.disconnect());
-  });
+    // See-through while any of the hero is still under the bar.
+    let frame = 0;
+    const updateOverHero = () => {
+      frame = 0;
+      const hero = document.getElementById(HERO_ID);
+      const heroBottom = hero?.getBoundingClientRect().bottom ?? 0;
+      setIsOverHero(heroBottom > header.getBoundingClientRect().height);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(updateOverHero);
+    };
+    updateOverHero();
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule, { passive: true });
 
-  // The nav wraps rather than scrolls at the widths where the pills don't fit,
-  // so this is a no-op in the normal case — scrollTo does nothing once
-  // scrollWidth equals clientWidth. It's here for the leftover case where the
-  // nav does scroll sideways (see the overflow-x safety valve in the stylesheet)
-  // and the active pill would otherwise sit off-screen, leaving the reader with
-  // no position indicator at all.
-  //
-  // Scrolls the nav element directly instead of calling scrollIntoView on the
-  // pill: scrollIntoView walks up and scrolls every scrollable ancestor, which
-  // here means fighting the page's own smooth scroll.
-  createEffect(() => {
-    const link = linkRefs[activeId()];
-    if (!navRef || !link) return;
-    navRef.scrollTo({
-      left: link.offsetLeft - (navRef.clientWidth - link.offsetWidth) / 2,
-      behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+    // Escape and clicks outside close the menu, as people expect of a
+    // dropdown. Escape returns focus to the button so keyboard users aren't
+    // dropped at the top of the document.
+    const onKeyDown = (evt: KeyboardEvent) => {
+      if (evt.key === 'Escape' && isMenuOpen()) {
+        setIsMenuOpen(false);
+        menuButtonRef?.focus();
+      }
+    };
+    const onPointerDown = (evt: PointerEvent) => {
+      if (isMenuOpen() && !header.contains(evt.target as Node)) setIsMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+
+    onCleanup(() => {
+      resizeObserver.disconnect();
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
     });
   });
 
   return (
-    // Menu only: the brand lives in the Hero, above this bar. The bar is in
-    // the flow under the hero and sticks to the top once scrolled past.
-    <header ref={headerRef} class={styles.header}>
+    <header
+      ref={headerRef}
+      class={styles.header}
+      // An open menu needs a solid bar behind it even over the hero.
+      classList={{ [styles.headerOverHero]: isOverHero() && !isMenuOpen() }}
+    >
       <div class={`container ${styles.inner}`}>
+        <A href="/" noScroll class={styles.brand}>
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="" class={styles.logo} />
+          <span>
+            <span class={styles.orgName}>{siteConfig.orgName}</span>
+            <span class={styles.tagline}>{siteConfig.tagline}</span>
+          </span>
+        </A>
+
+        <button
+          ref={menuButtonRef}
+          type="button"
+          class={styles.menuButton}
+          aria-expanded={isMenuOpen()}
+          aria-controls="site-menu"
+          aria-label={isMenuOpen() ? 'Close menu' : 'Open menu'}
+          onClick={() => setIsMenuOpen(!isMenuOpen())}
+        >
+          {/* Three bars, or an X while open. Drawn in SVG so it inherits the
+              bar's text colour, white over the hero and dark once solid. */}
+          <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
+            {isMenuOpen() ? (
+              <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+            ) : (
+              <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+            )}
+          </svg>
+        </button>
+
         <nav
-          ref={navRef}
+          id="site-menu"
           class={styles.nav}
-          classList={{ [styles.navWrapped]: navWrapped() }}
+          classList={{ [styles.navOpen]: isMenuOpen() }}
           aria-label="Sections"
         >
           <For each={navLinks}>
             {(link) => (
               <A
-                // Callback form only — <A> forwards props.ref through Solid's
-                // spread helper, which ignores anything that isn't a function.
-                ref={(el: HTMLAnchorElement) => (linkRefs[link.id] = el)}
                 href={link.href}
                 noScroll
                 class={styles.navLink}
                 classList={{ [styles.navLinkActive]: activeId() === link.id }}
+                aria-current={activeId() === link.id ? 'location' : undefined}
+                onClick={() => setIsMenuOpen(false)}
               >
                 {link.label}
               </A>
