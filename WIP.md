@@ -36,7 +36,7 @@ repeating the hero's event in the list works.
 2. Build the "Your first visit" page: what to wear, coming alone, what
    happens. It's the biggest gap the Tune-up finds in `redesign-03`.
 
-**Planning docs** (in `sh-redesign/`, not yet committed to git):
+**Planning docs** (in `sh-redesign/`):
 
 - `initial-redesign-ideas.md`: everything the playbook says about websites,
   ideas N1–N46, decisions, and Groups 1–3 (Group 1, above the fold, is done).
@@ -78,5 +78,4 @@ draft.
 
 ## Open questions
 
-1. Commit the `sh-redesign/` planning docs to `main`?
-2. Push `redesign-01` and `redesign-02`, or keep them local?
+1. Push `redesign-01` and `redesign-02`, or keep them local?
