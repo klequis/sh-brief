@@ -110,9 +110,10 @@ who the site is for.
 - **Must-haves can't be set aside.**
   - *Why:* they're what every newcomer needs, wherever they live. If they
     could be skipped, the total would stop meaning anything.
-- **Any other item can**, with a one-line reason the tune-up displays, for
+- **Any other item can be set aside**, with a one-line reason the tune-up displays, for
   example: "Photos: we don't show members' faces; several aren't out to family
   or employers."
+  <!-- TODO (Carl): revise this "Why" line. -->
   - *Why:* local members know things a checklist can't, such as a hostile
     town, a group too small for turnout numbers to help, or a group that stays
     off social media on purpose. The playbook itself warns that "some of your
