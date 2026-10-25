@@ -1,6 +1,6 @@
 # Work in progress
 
-Last updated: 2026-10-23
+Last updated: 2026-10-24
 
 Two tracks, both started from the AHA *Humanist Organizer Playbook* (2026, Jake
 Via):
@@ -11,6 +11,21 @@ Via):
 2. **Front Porch Tune-up:** a checklist any local humanist group can use to
    check and improve its own website. Meant to be shared with Jake and other
    groups.
+
+## Waiting on Carl
+
+- Front Porch Tune-up: revise the "Why" line under "Any other item can be set
+  aside" (TODO in the doc).
+- Front Porch Tune-up: decide whether to cite p.21 next to the "several aren't
+  out to family or employers" example.
+- Push `redesign-01` and `redesign-02`, or keep them local? (Open questions)
+
+## In progress
+
+- Site redesign: `redesign-03` is the current direction. Next is `redesign-04`
+  (menu rename, "Your first visit" page). See section 1.
+- Front Porch Tune-up: design draft. Next is trying it by hand on 8–10 real
+  group sites. See section 2.
 
 ---
 
