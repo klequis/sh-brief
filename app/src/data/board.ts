@@ -18,12 +18,11 @@ of our upcoming events and come introduce yourself!`,
 };
 
 export const boardMembers: BoardMember[] = [
-  { name: 'Frank Brown' },
-  { name: 'John Schattenburg' },
-  { name: 'Carl Becker' },
-  { name: 'Brandilyn Mitchell' },
-  { name: 'Lorraine Nilson' },
   { name: 'Freedom Baerheim', role: 'Chair' },
+  { name: 'Carl Becker' },
+  { name: 'Tracy Beckler' },
+  { name: 'Frank Brown' },
   { name: 'Todd Lamb' },
-  { name: 'Anton Boyadjian' },
+  { name: 'Lorraine Nilson' },
+  { name: 'John Schattenburg' },
 ];
