@@ -24,6 +24,7 @@
    which resolves against the 16px root while body text is 18px — that made the
    brand and nav render smaller than the copy underneath them. */
 .brand {
+  grid-area: brand;
   /* Never shrink: the squeeze goes to the nav, which can scroll. */
   flex: none;
   display: flex;
@@ -58,6 +59,10 @@
      centring maths in Header.tsx can use offsetLeft directly. */
   position: relative;
   display: flex;
+  grid-area: nav;
+  /* Takes the slack between brand and button, so the pills sit next to the
+     button on the right, where they were before it existed. */
+  margin-inline-start: auto;
   /* Flex items won't shrink below their content by default, which would push
      the pills out of the header. With this they scroll instead, so the layout
      degrades gracefully at widths just above the breakpoint. */
@@ -77,6 +82,30 @@
 
 .nav::-webkit-scrollbar {
   display: none;
+}
+
+/* Desktop: brand on the left, then the pills, then this button at the far
+   right. Filled and squared-off, like "Donate on Zeffy" in the Donate section,
+   so it reads as something to do rather than one more section. It goes to the
+   Donate section, not straight to Zeffy: a first-time donor sees what the money
+   is for there, and the Zeffy button is one click further. */
+.donateButton {
+  grid-area: donate;
+  flex: none;
+  padding: 9px 18px;
+  border-radius: 6px;
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  font-weight: 700;
+  font-size: 17px;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.donateButton:hover,
+.donateButton:focus-visible {
+  background: var(--color-primary-hover);
+  color: var(--color-text);
 }
 
 .navLink {
@@ -122,20 +151,40 @@
 }
 
 /* Brand and nav stop fitting on one row somewhere under 1100px now that both
-   are bigger, so stack them: brand on top, the section pills as a scrollable
-   strip beneath. Keep this breakpoint in sync with the --header-height
+   are bigger, so stack them: brand and Donate on top, the section pills
+   beneath. Keep this breakpoint in sync with the --header-height
    override in tokens.css. */
 @media (max-width: 1100px) {
+  /* Brand and Donate share the top row, the pills get the row beneath. The
+     button stays up top on purpose: if it wrapped with the pills it would be
+     lost among them on a phone, which is where it matters most. */
   .inner {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: center;
-    gap: 0.375rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      'brand donate'
+      'nav nav';
+    align-items: center;
+    column-gap: 0.75rem;
+    row-gap: 0.375rem;
     padding-block: 0.5rem;
   }
 
+  /* minmax(0, 1fr) above lets the brand give way to the button. On the
+     narrowest phones (under ~400px) "Stanislaus Humanists" then wraps onto a
+     second line beside the logo instead of pushing the button off the row. */
   .brand {
-    align-self: flex-start;
+    justify-self: start;
+    min-width: 0;
+  }
+
+  .nav {
+    margin-inline-start: 0;
+  }
+
+  .donateButton {
+    padding: 7px 14px;
+    font-size: 15px;
   }
 
   /* Scaled to the room actually available rather than dropped to a single
@@ -151,6 +200,8 @@
 
   .orgName {
     font-size: clamp(20px, 5vw, 24px);
+    /* Kept tight for when the name wraps to two lines beside the logo. */
+    line-height: 1.15;
   }
 
   /* The pills stop fitting one row at ~600px. Wrap rather than scroll: a
@@ -188,6 +239,11 @@
 
   .navLink {
     padding: 5px 10px;
+    font-size: 14px;
+  }
+
+  .donateButton {
+    padding: 6px 12px;
     font-size: 14px;
   }
 }

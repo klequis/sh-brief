@@ -53,7 +53,7 @@ export function formatMailingAddress(address: MailingAddress): string {
 // the header needs to map a scroll position back to a link. Keep this array in
 // the same order the sections appear in Sections.tsx — createActiveSection
 // walks it top to bottom.
-export const navLinks = [
+export const sectionLinks = [
   { label: 'Home', href: '/', id: 'home' },
   { label: 'About Us', href: '/about-us', id: 'about-us' },
   { label: 'About Humanism', href: '/about-humanism', id: 'about-humanism' },
@@ -61,3 +61,10 @@ export const navLinks = [
   { label: 'Donate', href: '/donate', id: 'donate' },
   { label: 'Contact', href: '/contact', id: 'contact' },
 ];
+
+// Donate is a button on the right of the header, not a pill in the menu, so it
+// reads as something to do rather than one more section to read.
+export const donateLink = sectionLinks.find((link) => link.id === 'donate')!;
+
+/** The pill menu in the header: every section except Donate. */
+export const navLinks = sectionLinks.filter((link) => link !== donateLink);
