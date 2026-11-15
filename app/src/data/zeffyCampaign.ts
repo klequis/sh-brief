@@ -5,6 +5,8 @@
 // The form is live: a gift through it charges a real card.
 export const zeffyCampaign = {
   campaignTitle: 'Text Campaign',
+  /** The campaign's id in the Zeffy API, used by /api/donation-progress. */
+  campaignId: 'e4eec091-32f9-477d-af20-47421ed4c53a',
   /** Public donation page. The QR code below points here too. */
   donationFormUrl: 'https://www.zeffy.com/donation-form/text-campaign',
   /** PNG served by Zeffy, ready to print. */

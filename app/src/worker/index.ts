@@ -1,17 +1,19 @@
 /**
- * The site's only server code.
- *
- * Exists because Meetup serves the iCal feed with no Access-Control-Allow-Origin
- * header, so the browser cannot fetch it directly. This route fetches it
- * server-side and hands back JSON.
+ * The site's only server code. Two routes:
+ * - /api/events: Meetup serves the iCal feed with no
+ *   Access-Control-Allow-Origin header, so the browser cannot fetch it
+ *   directly. This route fetches it server-side and hands back JSON.
+ * - /api/donation-progress: the Zeffy campaign's total and latest gifts; see
+ *   donationProgress.ts.
  *
  * Everything else is static. assets.run_worker_first is deliberately unset in
  * wrangler.jsonc, so Cloudflare serves any request matching a built file
  * without invoking this script at all — a bug in here cannot take down the home
- * page. Only paths matching no asset arrive, and anything but /api/events gets
- * the 404 the asset server would have returned.
+ * page. Only paths matching no asset arrive, and anything but the two routes
+ * gets the 404 the asset server would have returned.
  */
 import { parseIcal } from '../lib/parseIcal';
+import { handleDonationProgress } from './donationProgress';
 
 const FEED_URL = 'https://www.meetup.com/stanislaus-humanists/events/ical/';
 const TIMEOUT_MS = 10_000;
@@ -21,11 +23,21 @@ interface Env {
   // declares globals that clash with the DOM types the Solid app compiles
   // against, and this tsconfig is shared by both.
   ASSETS: { fetch(request: Request): Promise<Response> };
+  /** Set with `pnpm wrangler secret put ZEFFY_API_KEY`; locally from .dev.vars. */
+  ZEFFY_API_KEY?: string;
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(
+    request: Request,
+    env: Env,
+    ctx: { waitUntil(promise: Promise<unknown>): void },
+  ): Promise<Response> {
     const url = new URL(request.url);
+
+    if (url.pathname === '/api/donation-progress') {
+      return handleDonationProgress(request, env.ZEFFY_API_KEY, ctx);
+    }
 
     if (url.pathname !== '/api/events') {
       return env.ASSETS.fetch(request);

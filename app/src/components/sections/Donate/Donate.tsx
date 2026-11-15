@@ -2,9 +2,11 @@ import type { Component } from 'solid-js';
 
 import { zeffyCampaign } from '../../../data/zeffyCampaign';
 import styles from './Donate.module.css';
+import DonationProgress from './DonationProgress';
 
 // Integration 1: a plain link to the Zeffy donation page, plus its QR code for
-// flyers and the sign-in table. No script, so it prerenders as-is.
+// flyers and the sign-in table.
+// Integration 3: live progress toward the campaign's goal above them.
 const Donate: Component = () => {
   return (
     <section id="donate" class="section">
@@ -14,6 +16,7 @@ const Donate: Component = () => {
           Stanislaus Humanists runs on its members and donors. Gifts pay for meeting
           space, events and outreach in the Central Valley.
         </p>
+        <DonationProgress />
         <div class={styles.donateOptions}>
           <a
             class={styles.donateButton}
