@@ -76,7 +76,7 @@ repeating the hero's event in the list works.
 
 ## 2. Front Porch Tune-up
 
-**Doc:** [front-porch-tune-up/README.md](front-porch-tune-up/README.md), design
+**Doc:** [sh-brief-doc/front-porch-tune-up/README.md](../sh-brief-doc/front-porch-tune-up/README.md), design
 draft.
 
 **What's decided:**

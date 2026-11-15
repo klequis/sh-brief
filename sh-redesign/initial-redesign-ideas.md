@@ -104,7 +104,7 @@ links.
   accept a PO box).
 - Front Porch Tune-up: revise the "Why" line under "Any other item can be set
   aside" (local members know things a checklist can't…) in
-  `front-porch-tune-up/README.md`. Marked with a TODO comment there.
+  `sh-brief-doc/front-porch-tune-up/README.md`. Marked with a TODO comment there.
 
 ---
 
