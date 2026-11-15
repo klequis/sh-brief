@@ -10,4 +10,8 @@ export const zeffyCampaign = {
   /** PNG served by Zeffy, ready to print. */
   qrCodeImageUrl:
     'https://api.zeffy.com/share-kit/e4eec091-32f9-477d-af20-47421ed4c53a/qr-code.png',
+  /** Path Zeffy's embed script reads from data-form-url (Share dialog → Embed). */
+  embedFormPath: '/embed/donation-form/text-campaign',
+  /** The same form as a plain iframe, for when the embed script won't load. */
+  embedFallbackUrl: 'https://www.zeffy.com/embed/donation-form/text-campaign',
 };

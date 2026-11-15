@@ -2,9 +2,12 @@ import type { Component } from 'solid-js';
 
 import { zeffyCampaign } from '../../../data/zeffyCampaign';
 import styles from './Donate.module.css';
+import ZeffyEmbed from './ZeffyEmbed';
 
-// Integration 1: a plain link to the Zeffy donation page, plus its QR code for
-// flyers and the sign-in table. No script, so it prerenders as-is.
+// Integration 2: Zeffy's form embedded in the section, so donors give without
+// leaving the site. Integration 1's link and QR code stay underneath it, for
+// anyone who'd rather give on Zeffy's own page or from their phone, and as a
+// way through if the embedded form doesn't load.
 const Donate: Component = () => {
   return (
     <section id="donate" class="section">
@@ -13,6 +16,10 @@ const Donate: Component = () => {
         <p>
           Stanislaus Humanists runs on its members and donors. Gifts pay for meeting
           space, events and outreach in the Central Valley.
+        </p>
+        <ZeffyEmbed />
+        <p class={styles.otherWaysLead}>
+          Prefer to give on Zeffy's own page, or from your phone?
         </p>
         <div class={styles.donateOptions}>
           <a
@@ -35,7 +42,7 @@ const Donate: Component = () => {
           </figure>
         </div>
         <p class={styles.donateNote}>
-          Donations are handled by Zeffy, which opens in a new tab. Zeffy is free for
+          Donations are handled by Zeffy. The button opens it in a new tab. Zeffy is free for
           us; at checkout it asks you for an optional tip to Zeffy, which you can set
           to $0.
         </p>

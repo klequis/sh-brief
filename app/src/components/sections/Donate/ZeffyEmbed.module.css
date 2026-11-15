@@ -1,0 +1,27 @@
+/* Wide enough for Zeffy's form, which is laid out for about this width; any
+   wider and it floats in empty space on a desktop. */
+.zeffyEmbed {
+  max-width: 720px;
+  margin-block: 1.5rem;
+}
+
+/* Holds the space the form will take, so the page doesn't jump when it
+   arrives. Shown only until Zeffy's script fills in the form. */
+.loadingBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 450px;
+  margin: 0;
+  border: 1px dashed var(--color-text-muted);
+  border-radius: 6px;
+  color: var(--color-text-muted);
+}
+
+/* The height Zeffy's own fallback snippet uses. */
+.fallbackIframe {
+  display: block;
+  width: 100%;
+  height: 450px;
+  border: 0;
+}
