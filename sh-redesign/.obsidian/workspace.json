@@ -1,0 +1,212 @@
+{
+  "main": {
+    "id": "8edb4ee3a47e1107",
+    "type": "split",
+    "children": [
+      {
+        "id": "0a0d106188ed74a3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "043b2f15a5e7d821",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "donation-platform-options.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "donation-platform-options"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "75061a7b9a536d8c",
+    "type": "split",
+    "children": [
+      {
+        "id": "d9a0bf8931d90564",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "49e91085715d68de",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "13fea73a77c28ab1",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "349d3410def1b297",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "15d9c77cbc2661d3",
+    "type": "split",
+    "children": [
+      {
+        "id": "4df4a69410128395",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "14241bbbcdaf1a5c",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "donation-platform-options.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks"
+            }
+          },
+          {
+            "id": "02b50bd9ab8125a3",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "donation-platform-options.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "fdf891f1ba024eb3",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "534c907a4cd631d9",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "451bbf0bfece651b",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "donation-platform-options.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "49e91085715d68de",
+  "lastOpenFiles": [
+    "initial-redesign-ideas.md.tmp.4718.739f90087393",
+    "initial-redesign-ideas.md",
+    "front-porch-score.md",
+    "front-porch-score.md.tmp.4718.57cb75cd2907",
+    "front-porch-score.md.tmp.4718.41e69e66b0f0",
+    "front-porch-score.md.tmp.4718.b0311f49d011",
+    "front-porch-score.md.tmp.4718.ed3cf1083833",
+    "front-porch-score.md.tmp.4718.402bf0729ad6",
+    "front-porch-score.md.tmp.4718.317ea5480eaf",
+    "front-porch-score.md.tmp.4718.41c2796068c8",
+    "front-porch-score.md.tmp.4718.3c07b9db4169",
+    "front-porch-score.md.tmp.4718.efb911d25604",
+    "front-porch-score.md.tmp.4718.e15cc8493f0f",
+    "testing/2026-10-17-1815-redesign-03-hamburger-glass-card.md",
+    "testing/2026-10-17-1740-redesign-02-brand-in-hero.md",
+    "testing/2026-10-17-1705-above-the-fold-hero.md",
+    "donation-platform-options.md",
+    "sh-to-squarespace-migration.md"
+  ]
+}
