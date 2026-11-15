@@ -19,10 +19,15 @@ Via):
 - Front Porch Tune-up: decide whether to cite p.21 next to the "several aren't
   out to family or employers" example.
 - Push `redesign-01` and `redesign-02`, or keep them local? (Open questions)
-- Zeffy integration 1 (link and QR code): review it on
-  `feat/zeffy-integration_1` with the checklist
-  `sh-redesign/testing/2026-11-14-1631-zeffy-integration-1-link-and-qr.md`
-  (on that branch). Judge the placement, the QR code and the placeholder copy.
+- Zeffy integration: review all three branches, each with its checklist in
+  `sh-redesign/testing/` on that branch, then pick one or a combination:
+  1. `feat/zeffy-integration_1`, link and QR code plus a **Donate** button in
+     the header: `2026-11-14-1631-zeffy-integration-1-link-and-qr.md`
+  2. `feat/zeffy-integration_2`, embedded Zeffy form:
+     `2026-11-14-1722-zeffy-integration-2-embedded-form.md`
+  3. `feat/zeffy-integration_3`, live progress from the Zeffy API:
+     `2026-11-14-1725-zeffy-integration-3-live-progress.md`. Needs
+     `pnpm wrangler secret put ZEFFY_API_KEY` before it works when deployed.
   Remaining work: `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
 
 ## In progress
@@ -31,10 +36,8 @@ Via):
   (menu rename, "Your first visit" page). See section 1.
 - Front Porch Tune-up: design draft. Next is trying it by hand on 8–10 real
   group sites. See section 2.
-- Zeffy integration: one branch per way of connecting the site to Zeffy
-  (`feat/zeffy-integration_1` link and QR code, built; `_2` embedded form and
-  `_3` live progress from the Zeffy API, not started). Next is `_2`, after
-  Carl's review of `_1`. See
+- Zeffy integration: one branch per way of connecting the site to Zeffy, all
+  three built and waiting on Carl's review (see Waiting on Carl). See
   `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
 
 ---
