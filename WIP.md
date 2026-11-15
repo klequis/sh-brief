@@ -1,6 +1,6 @@
 # Work in progress
 
-Last updated: 2026-10-24
+Last updated: 2026-11-14
 
 Two tracks, both started from the AHA *Humanist Organizer Playbook* (2026, Jake
 Via):
@@ -19,6 +19,11 @@ Via):
 - Front Porch Tune-up: decide whether to cite p.21 next to the "several aren't
   out to family or employers" example.
 - Push `redesign-01` and `redesign-02`, or keep them local? (Open questions)
+- Zeffy integration 1 (link and QR code): review it on
+  `feat/zeffy-integration_1` with the checklist
+  `sh-redesign/testing/2026-11-14-1631-zeffy-integration-1-link-and-qr.md`
+  (on that branch). Judge the placement, the QR code and the placeholder copy.
+  Remaining work: `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
 
 ## In progress
 
@@ -26,6 +31,11 @@ Via):
   (menu rename, "Your first visit" page). See section 1.
 - Front Porch Tune-up: design draft. Next is trying it by hand on 8–10 real
   group sites. See section 2.
+- Zeffy integration: one branch per way of connecting the site to Zeffy
+  (`feat/zeffy-integration_1` link and QR code, built; `_2` embedded form and
+  `_3` live progress from the Zeffy API, not started). Next is `_2`, after
+  Carl's review of `_1`. See
+  `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
 
 ---
 
