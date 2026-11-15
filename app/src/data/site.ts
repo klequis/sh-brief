@@ -58,5 +58,6 @@ export const navLinks = [
   { label: 'About Us', href: '/about-us', id: 'about-us' },
   { label: 'About Humanism', href: '/about-humanism', id: 'about-humanism' },
   { label: 'Membership', href: '/membership', id: 'membership' },
+  { label: 'Donate', href: '/donate', id: 'donate' },
   { label: 'Contact', href: '/contact', id: 'contact' },
 ];
