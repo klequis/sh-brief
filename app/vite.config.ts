@@ -12,7 +12,7 @@ export default defineConfig({
   // Switching to BrowserRouter would break this: deep paths change what "./"
   // resolves against, so base would have to become '/'. See doc/custom-domain.md.
   base: './',
-  plugins: [devtools(), solidPlugin()],
+  plugins: [devtools(), solidPlugin({ ssr: true })],
   server: {
     port: 3000,
   },

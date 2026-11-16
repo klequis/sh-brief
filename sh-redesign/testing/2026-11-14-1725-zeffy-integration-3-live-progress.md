@@ -72,12 +72,20 @@
    - Failed again 2026-11-15 (commit `e5558b3`): the API now answered, but the
      section still stayed on "Loading the latest totals…", in two browsers,
      with no console errors.
-     - Real cause: the page never hydrated. `entry-prerender.tsx` wrapped
-       StaticRouter in one extra component, so none of the prerendered
-       hydration keys matched the browser's, and the browser's updates went
-       to elements that weren't on the page. This affected the whole site
-       (on `main` too), not only this section. Fixed in `entry-prerender.tsx`.
-       Retest this step and step 3.
+     - A change to `entry-prerender.tsx` (commit `5672e74`, one fewer
+       component level so the prerendered hydration keys match the
+       browser's) was needed but didn't fix it on its own.
+   - Failed a third time 2026-11-15 (commit `5672e74`): same as above, the
+     API answered but the section stayed on "Loading…".
+     - Real cause: `vite.config.ts` loaded `solidPlugin()` without
+       `{ ssr: true }`, so the browser code wasn't built for hydration.
+       Whenever the address had a `#` part (`#donate`, `#/`, from clicking a
+       menu link and then reloading), the browser kept the prerendered page
+       and drew its updates into elements that weren't on the page. With no
+       `#` part the router redrew the page, which hid the bug. This affects
+       the whole site (on `main` too). Fixed in `vite.config.ts`; checked in
+       jsdom with and without a `#` part. Retest this step, once with the
+       address ending in `#donate`, and step 3.
 
 ## Things to judge
 
