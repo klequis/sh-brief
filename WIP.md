@@ -1,6 +1,6 @@
 # Work in progress
 
-Last updated: 2026-11-14 (evening)
+Last updated: 2026-11-15
 
 Two tracks, both started from the AHA *Humanist Organizer Playbook* (2026, Jake
 Via):
@@ -21,16 +21,10 @@ Via):
 - Front Porch Tune-up: decide whether to cite p.21 next to the "several aren't
   out to family or employers" example.
 - Push `redesign-01` and `redesign-02`, or keep them local? (Open questions)
-- Zeffy integration: review all three branches, each with its checklist in
-  `sh-redesign/testing/` on that branch, then pick one or a combination:
-  1. `feat/zeffy-integration_1`, link and QR code plus a **Donate** button in
-     the header: `2026-11-14-1631-zeffy-integration-1-link-and-qr.md`
-  2. `feat/zeffy-integration_2`, embedded Zeffy form:
-     `2026-11-14-1722-zeffy-integration-2-embedded-form.md`
-  3. `feat/zeffy-integration_3`, live progress from the Zeffy API:
-     `2026-11-14-1725-zeffy-integration-3-live-progress.md`. Needs
-     `pnpm wrangler secret put ZEFFY_API_KEY` before it works when deployed.
-  Remaining work: `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
+- Zeffy integration 3 (chosen 2026-11-15): before it goes live, choose the
+  campaign ("Text Campaign" is the test one and takes real money), confirm
+  the wording and the latest-gifts list, then say when to merge into `main`.
+  See `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
 
 ## In progress
 
@@ -40,8 +34,9 @@ Via):
   11-step plan in `~/P/sh-brief-doc/front-porch-tune-up/fabel-front-pourch-tune-up.md`:
   split the README into worksheet, design notes and tool spec; add the
   Being found section; then the prompt pack and dry runs. See section 2.
-- Zeffy integration: one branch per way of connecting the site to Zeffy, all
-  three built and waiting on Carl's review (see Waiting on Carl). See
+- Zeffy integration: going forward with integration 3, live progress from the
+  Zeffy API (`feat/zeffy-integration_3`). All three branches and their
+  preview URLs are kept. Waiting on Carl before the merge into `main`. See
   `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
 
 ---
