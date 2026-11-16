@@ -1,0 +1,7 @@
+# Every crawler may read the whole site. The only non-page addresses are
+# /api/events and /api/donation-progress, which the page itself fetches; they
+# hold nothing a search result should point to, so they are kept out.
+User-agent: *
+Disallow: /api/
+
+Sitemap: https://stanislaus-humanists.org/sitemap.xml

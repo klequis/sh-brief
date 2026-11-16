@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- The site is one page; its sections are #fragments, which search engines
+     do not index separately, so the home page is the only entry. Add a <url>
+     here for each real page if the site ever gets more than one. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://stanislaus-humanists.org/</loc>
+  </url>
+</urlset>
