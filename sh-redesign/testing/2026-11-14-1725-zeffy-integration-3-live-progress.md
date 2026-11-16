@@ -67,8 +67,17 @@
        it didn't have it (`{"error":"zeffy_not_configured"}`). Fixed by the
        next push, which builds a new preview version with the key.
      - Cause 2: on a failed load the section never changed to "Live totals
-       are unavailable right now." Fixed in `DonationProgress.tsx` (loads in
-       `onMount` instead of `createResource`). Retest this step and step 3.
+       are unavailable right now." A change to `DonationProgress.tsx`
+       (commit `e5558b3`, loads in `onMount`) didn't fix it.
+   - Failed again 2026-11-15 (commit `e5558b3`): the API now answered, but the
+     section still stayed on "Loading the latest totals…", in two browsers,
+     with no console errors.
+     - Real cause: the page never hydrated. `entry-prerender.tsx` wrapped
+       StaticRouter in one extra component, so none of the prerendered
+       hydration keys matched the browser's, and the browser's updates went
+       to elements that weren't on the page. This affected the whole site
+       (on `main` too), not only this section. Fixed in `entry-prerender.tsx`.
+       Retest this step and step 3.
 
 ## Things to judge
 

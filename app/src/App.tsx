@@ -5,11 +5,12 @@ import type { RouterProps } from '@solidjs/router';
 import RootLayout from './routes/RootLayout';
 import Sections from './routes/Sections';
 
-// The prerender pass renders this same tree under MemoryRouter, because
+// The prerender pass renders this same tree under StaticRouter, because
 // HashRouter reads window.location and there is no window in Node. Swapping the
 // router is safe for hydration: the only route is the catch-all below, so every
-// router resolves to the same <Sections /> and produces identical markup.
-// See scripts/prerender.mjs.
+// router resolves to the same <Sections /> and produces identical markup. The
+// prerender's router must also sit at the same component depth as HashRouter
+// here, or no hydration key matches. See src/entry-prerender.tsx.
 export type RouterComponent = ParentComponent<Omit<RouterProps, 'children'>>;
 
 const App: Component<{ router?: RouterComponent }> = (props) => {

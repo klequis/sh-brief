@@ -5,6 +5,7 @@
  * instead of an empty <div id="root">.
  */
 import { StaticRouter } from '@solidjs/router';
+import { mergeProps } from 'solid-js';
 import { generateHydrationScript, renderToString } from 'solid-js/web';
 
 import App from './App';
@@ -15,9 +16,15 @@ import { structuredDataScript } from './seo/structuredData';
 // and popstate handlers on mount, which reach for document and throw under
 // renderToString. StaticRouter skips all of that and just resolves one URL.
 // "/" is the only route anyway — App's single route is a catch-all.
-const PrerenderRouter: RouterComponent = (props) => (
-  <StaticRouter {...props} url="/" />
-);
+//
+// StaticRouter is called as a plain function, not as <StaticRouter />. Solid
+// adds a level to the hydration keys for every component, and in the browser
+// App renders HashRouter directly under it. A <StaticRouter /> here added one
+// extra level, so no key matched and the page never hydrated: in a production
+// build Solid says nothing and just renders into detached elements, so the
+// page looked right but never updated (live events, live Zeffy totals).
+const PrerenderRouter: RouterComponent = (props) =>
+  StaticRouter(mergeProps(props, { url: '/' }));
 
 export function renderPage(): { html: string; head: string } {
   return {
