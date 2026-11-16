@@ -1,6 +1,5 @@
 import type { Component } from 'solid-js';
-import { For, Match, Show, Switch, createResource } from 'solid-js';
-import { isServer } from 'solid-js/web';
+import { For, Match, Show, Switch, createSignal, onMount } from 'solid-js';
 
 import type { DonationProgress as DonationProgressData } from '../../../worker/donationProgress';
 import styles from './DonationProgress.module.css';
@@ -33,17 +32,38 @@ const giftDateFormat = new Intl.DateTimeFormat('en-US', {
   year: 'numeric',
 });
 
+type DonationProgressLoadState =
+  | { status: 'loading' }
+  | { status: 'unavailable' }
+  | { status: 'loaded'; progress: DonationProgressData };
+
 const DonationProgress: Component = () => {
-  // Source is false during prerender, so the fetch never runs in Node.
-  const [progress] = createResource(() => !isServer, fetchDonationProgress);
+  // Plain signal set from onMount, not createResource: onMount runs only in
+  // the browser, after hydration has taken over the prerendered "Loading…"
+  // text, so every later state change reaches the page. With createResource
+  // the section stayed on "Loading…" after a failed fetch.
+  const [loadState, setLoadState] = createSignal<DonationProgressLoadState>({
+    status: 'loading',
+  });
+
+  onMount(() => {
+    fetchDonationProgress()
+      .then((progress) => setLoadState({ status: 'loaded', progress }))
+      .catch(() => setLoadState({ status: 'unavailable' }));
+  });
+
+  const loadedProgress = () => {
+    const state = loadState();
+    return state.status === 'loaded' ? state.progress : undefined;
+  };
 
   return (
     <div class={styles.donationProgress}>
       <Switch fallback={<p class={styles.statusNote}>Loading the latest totals…</p>}>
-        <Match when={progress.error}>
+        <Match when={loadState().status === 'unavailable'}>
           <p class={styles.statusNote}>Live totals are unavailable right now.</p>
         </Match>
-        <Match when={progress()}>
+        <Match when={loadedProgress()}>
           {(loaded) => {
             const goalPercent = () => {
               const goalCents = loaded().goalCents;

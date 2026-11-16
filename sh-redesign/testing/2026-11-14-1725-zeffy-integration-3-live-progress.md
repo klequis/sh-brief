@@ -3,10 +3,11 @@
 - Branch: `feat/zeffy-integration_3`, started from `feat/zeffy-integration_1`
   at `379131c` (so it has the link, the QR code and the header **Donate**
   button, but not the embedded form from integration 2)
-- Preview: local only (not pushed). `pnpm dev` runs no server code, so the
-  totals can't load there. Instead, in `app/`, run `pnpm build`, then
-  `pnpm exec wrangler dev`, and open http://localhost:8787. Wrangler reads
-  the Zeffy API key from `app/.dev.vars`.
+- Preview: https://feat-zeffy-integration-3-sh-brief.klequis.workers.dev
+  (follows the branch's latest commit). Locally, `pnpm dev` runs no server
+  code, so the totals can't load there. Instead, in `app/`, run `pnpm build`,
+  then `pnpm exec wrangler dev`, and open http://localhost:8787. Wrangler
+  reads the Zeffy API key from `app/.dev.vars`.
 - The Zeffy campaign is the organization's test campaign, "Text Campaign":
   $1,000 goal, $0 raised, no gifts yet.
 
@@ -58,6 +59,16 @@
 6. Carl: in `app/`, run `pnpm wrangler secret put ZEFFY_API_KEY` and paste
    the key from `app/.dev.vars`. Until then the deployed site shows "Live
    totals are unavailable right now."
+   - Failed 2026-11-15 on the preview (commit `63c9941`), after the key was
+     added: the Donate section stayed on "Loading the latest totals…" through
+     two reloads and ~2 minutes; the console showed
+     `/api/donation-progress` returning 503.
+     - Cause 1: the preview version was built before the key was added, so
+       it didn't have it (`{"error":"zeffy_not_configured"}`). Fixed by the
+       next push, which builds a new preview version with the key.
+     - Cause 2: on a failed load the section never changed to "Live totals
+       are unavailable right now." Fixed in `DonationProgress.tsx` (loads in
+       `onMount` instead of `createResource`). Retest this step and step 3.
 
 ## Things to judge
 
