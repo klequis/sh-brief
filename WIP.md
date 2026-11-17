@@ -23,7 +23,7 @@ Via):
   `feat/zeffy-integration_1` with the checklist
   `sh-redesign/testing/2026-11-14-1631-zeffy-integration-1-link-and-qr.md`
   (on that branch). Judge the placement, the QR code and the placeholder copy.
-  Remaining work: `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
+  Remaining work: `~/P/sh-brief-doc/payment-system/zeffy-implementation/zeffy-integration-remaining-work.md`.
 
 ## In progress
 
@@ -35,7 +35,7 @@ Via):
   (`feat/zeffy-integration_1` link and QR code, built; `_2` embedded form and
   `_3` live progress from the Zeffy API, not started). Next is `_2`, after
   Carl's review of `_1`. See
-  `~/P/sh-brief-doc/zeffy/zeffy-integration-remaining-work.md`.
+  `~/P/sh-brief-doc/payment-system/zeffy-implementation/zeffy-integration-remaining-work.md`.
 
 ---
 
