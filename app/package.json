@@ -4,8 +4,9 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start": "vite",
-    "dev": "vite",
+    "start": "node scripts/dev.mjs",
+    "dev": "node scripts/dev.mjs",
+    "dev:page": "vite",
     "dev:api": "wrangler dev --port 8787",
     "build": "node scripts/generate-events.mjs && vite build && node scripts/prerender.mjs",
     "generate:events": "node scripts/generate-events.mjs",

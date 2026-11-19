@@ -14,18 +14,19 @@ $ npm install # or pnpm install or yarn install
 
 In the project directory, you can run:
 
-### `npm run dev` or `npm start`
+### `pnpm dev` or `pnpm start`
 
-Runs the app in the development mode.<br>
+Runs the app in the development mode: the page (Vite, `pnpm dev:page`) and the
+Worker that serves `/api/events` and `/api/donation-progress` (`pnpm dev:api`),
+together in one terminal (see `scripts/dev.mjs`). Ctrl+C stops both.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 
-### `pnpm dev:api` (run alongside `pnpm dev`)
+### `pnpm dev:api`
 
-Runs the Worker locally on port 8787, so `/api/events` and
-`/api/donation-progress` work in development; `pnpm dev` forwards `/api` to it.
-Without it, the Donate section says "Live totals are unavailable right now" and
+The Worker alone, on port 8787; `pnpm dev` starts it for you. Vite forwards
+`/api` to it. Without it, the Donate section says "Live totals are unavailable right now" and
 the event list falls back to its built-in snapshot. It reads `ZEFFY_API_KEY`
 from `app/.dev.vars`.
 
