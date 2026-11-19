@@ -15,6 +15,10 @@ export default defineConfig({
   plugins: [devtools(), solidPlugin({ ssr: true })],
   server: {
     port: 3000,
+    // Vite doesn't run the Worker, so /api/events and /api/donation-progress
+    // would 404 here. Forward them to `pnpm dev:api` (wrangler dev on 8787),
+    // which runs src/worker/index.ts with the key from .dev.vars.
+    proxy: { '/api': 'http://localhost:8787' },
   },
   build: {
     target: 'esnext',

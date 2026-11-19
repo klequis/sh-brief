@@ -6,6 +6,7 @@
   "scripts": {
     "start": "vite",
     "dev": "vite",
+    "dev:api": "wrangler dev --port 8787",
     "build": "node scripts/generate-events.mjs && vite build && node scripts/prerender.mjs",
     "generate:events": "node scripts/generate-events.mjs",
     "build:client": "vite build",

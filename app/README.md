@@ -21,6 +21,14 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 
+### `pnpm dev:api` (run alongside `pnpm dev`)
+
+Runs the Worker locally on port 8787, so `/api/events` and
+`/api/donation-progress` work in development; `pnpm dev` forwards `/api` to it.
+Without it, the Donate section says "Live totals are unavailable right now" and
+the event list falls back to its built-in snapshot. It reads `ZEFFY_API_KEY`
+from `app/.dev.vars`.
+
 ### `npm run build`
 
 Builds the app for production to the `dist` folder.<br>
