@@ -43,7 +43,7 @@ await build({
   ssr: {
     // Must be compiled by the plugin above rather than left to Node, which
     // would load the browser-targeted dist and reach for document.
-    noExternal: ['solid-js', '@solidjs/router'],
+    noExternal: ['solid-js'],
   },
   build: {
     ssr: path.join(appRoot, 'src', 'entry-prerender.tsx'),

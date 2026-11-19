@@ -54,9 +54,9 @@ export function formatMailingAddress(address: MailingAddress): string {
 // the same order the sections appear in Sections.tsx — createActiveSection
 // walks it top to bottom.
 export const navLinks = [
-  { label: 'Home', href: '/', id: 'home' },
-  { label: 'About Us', href: '/about-us', id: 'about-us' },
-  { label: 'About Humanism', href: '/about-humanism', id: 'about-humanism' },
-  { label: 'Membership', href: '/membership', id: 'membership' },
-  { label: 'Contact', href: '/contact', id: 'contact' },
+  { label: 'Home', href: '#home', id: 'home' },
+  { label: 'About Us', href: '#about-us', id: 'about-us' },
+  { label: 'About Humanism', href: '#about-humanism', id: 'about-humanism' },
+  { label: 'Membership', href: '#membership', id: 'membership' },
+  { label: 'Contact', href: '#contact', id: 'contact' },
 ];

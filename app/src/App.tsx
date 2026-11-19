@@ -1,24 +1,23 @@
-import type { Component, ParentComponent } from 'solid-js';
-import { HashRouter, Route } from '@solidjs/router';
-import type { RouterProps } from '@solidjs/router';
+import type { Component } from 'solid-js';
 
-import RootLayout from './routes/RootLayout';
-import Sections from './routes/Sections';
+import Header from './components/layout/Header';
+import Sections from './components/layout/Sections';
+import Footer from './components/layout/Footer';
 
-// The prerender pass renders this same tree under MemoryRouter, because
-// HashRouter reads window.location and there is no window in Node. Swapping the
-// router is safe for hydration: the only route is the catch-all below, so every
-// router resolves to the same <Sections /> and produces identical markup.
-// See scripts/prerender.mjs.
-export type RouterComponent = ParentComponent<Omit<RouterProps, 'children'>>;
-
-const App: Component<{ router?: RouterComponent }> = (props) => {
-  const Router = props.router ?? (HashRouter as RouterComponent);
-
+// One page, no router. Every link to a section is a plain "#section-id"
+// fragment, so the browser does the scrolling itself: smooth scrolling comes
+// from scroll-behavior in global.css, the sticky header offset from
+// scroll-margin-top, and clicking the link for the section you're already on
+// scrolls back to it, with nothing in this app to keep in step.
+const App: Component = () => {
   return (
-    <Router root={RootLayout}>
-      <Route path="*" component={Sections} />
-    </Router>
+    <>
+      <Header />
+      <main>
+        <Sections />
+      </main>
+      <Footer />
+    </>
   );
 };
 

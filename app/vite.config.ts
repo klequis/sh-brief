@@ -7,12 +7,16 @@ export default defineConfig({
   // site serves at the root of https://stanislaus-humanists.org, so './' isn't
   // strictly required there, but it keeps `pnpm serve` and any preview URL
   // working from a subpath too.
-  // Safe here because the app uses HashRouter — the document path never
-  // changes, only the fragment, so "./" always resolves against the same base.
-  // Switching to BrowserRouter would break this: deep paths change what "./"
-  // resolves against, so base would have to become '/'. See doc/custom-domain.md.
+  // Safe here because the site is one page: links only ever change the
+  // "#section" part of the address, never the path, so "./" always resolves
+  // against the same base. Giving sections their own paths (/membership, ...)
+  // would break this — base would have to become '/'. See
+  // sh-brief-doc/README.md.
   base: './',
-  plugins: [devtools(), solidPlugin()],
+  // ssr: true builds the browser code to hydrate the prerendered markup
+  // (src/index.tsx calls hydrate()). Without it the page silently never
+  // hydrates and live updates go to detached elements.
+  plugins: [devtools(), solidPlugin({ ssr: true })],
   server: {
     port: 3000,
   },

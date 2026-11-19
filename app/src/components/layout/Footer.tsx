@@ -1,5 +1,4 @@
 import type { Component } from 'solid-js';
-import { A } from '@solidjs/router';
 
 import { siteConfig } from '../../data/site';
 import SocialLinks from '../ui/SocialLinks';
@@ -10,21 +9,21 @@ const Footer: Component = () => {
     <footer class={styles.footer}>
       <div class={`container ${styles.inner}`}>
         <nav class={styles.quickLinks}>
-          <A href="/membership" noScroll>
+          <a href="#membership">
             Membership
-          </A>
+          </a>
           {' | '}
-          <A href="/events" noScroll>
+          <a href="#events">
             Events
-          </A>
+          </a>
           {' | '}
-          <A href="/contact" noScroll>
+          <a href="#contact">
             Contact Us
-          </A>
+          </a>
           {' | '}
-          <A href="/about-us/board" noScroll>
+          <a href="#board">
             Governance
-          </A>
+          </a>
         </nav>
         <SocialLinks class={styles.social} />
         <p class={styles.copyright}>{siteConfig.copyright}</p>

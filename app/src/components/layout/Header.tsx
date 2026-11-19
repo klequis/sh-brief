@@ -1,6 +1,5 @@
 import type { Component } from 'solid-js';
 import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
-import { A } from '@solidjs/router';
 
 import { siteConfig, navLinks } from '../../data/site';
 import { createActiveSection } from '../../hooks/createActiveSection';
@@ -81,7 +80,7 @@ const Header: Component = () => {
   return (
     <header ref={headerRef} class={styles.header}>
       <div class={`container ${styles.inner}`}>
-        <A href="/" noScroll class={styles.brand}>
+        <a href="#home" class={styles.brand}>
           <img
             src={`${import.meta.env.BASE_URL}logo.png`}
             alt=""
@@ -91,7 +90,7 @@ const Header: Component = () => {
             <span class={styles.orgName}>{siteConfig.orgName}</span>
             <span class={styles.tagline}>{siteConfig.tagline}</span>
           </span>
-        </A>
+        </a>
         <nav
           ref={navRef}
           class={styles.nav}
@@ -100,17 +99,14 @@ const Header: Component = () => {
         >
           <For each={navLinks}>
             {(link) => (
-              <A
-                // Callback form only — <A> forwards props.ref through Solid's
-                // spread helper, which ignores anything that isn't a function.
-                ref={(el: HTMLAnchorElement) => (linkRefs[link.id] = el)}
+              <a
+                ref={(el) => (linkRefs[link.id] = el)}
                 href={link.href}
-                noScroll
                 class={styles.navLink}
                 classList={{ [styles.navLinkActive]: activeId() === link.id }}
               >
                 {link.label}
-              </A>
+              </a>
             )}
           </For>
         </nav>

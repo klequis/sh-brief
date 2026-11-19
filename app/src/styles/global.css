@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+/* Section links are plain "#section-id" fragments, so the browser does the
+   scrolling. This makes that scroll glide instead of jump, except for readers
+   who have asked their system for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   margin: 0;
   background: var(--color-bg);

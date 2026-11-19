@@ -1,5 +1,4 @@
 import type { Component } from 'solid-js';
-import { A } from '@solidjs/router';
 
 import EventList from './EventList';
 
@@ -18,9 +17,9 @@ const Home: Component = () => {
           the existence of God, the supernatural, or an afterlife. We are living the
           only life we'll have in the only world we know about. The responsibility
           for the choices we make is ours and ours alone. Visit the{' '}
-          <A href="/about-humanism" noScroll>
+          <a href="#about-humanism">
             About Humanism
-          </A>{' '}
+          </a>{' '}
           page to learn more.
         </p>
       </div>

@@ -13,6 +13,19 @@ if (import.meta.env.DEV && !(root instanceof HTMLElement)) {
   );
 }
 
+// Addresses from before the site dropped its hash router look like
+// "#/membership" or "#/about-us/board", and may still be out there in posts
+// and bookmarks. The section to show was always the last part, so rewrite them
+// to "#membership" / "#board" ("#/" to "#home") and scroll there once the page
+// is up.
+const oldRouterHash = window.location.hash.match(/^#\/(.*)$/);
+const oldRouterSectionId = oldRouterHash
+  ? oldRouterHash[1].split('/').filter(Boolean).pop() ?? 'home'
+  : undefined;
+if (oldRouterSectionId) {
+  history.replaceState(null, '', `#${oldRouterSectionId}`);
+}
+
 // Production builds are prerendered (scripts/prerender.mjs), so #root already
 // holds the markup and its hydration markers — adopt it instead of rebuilding,
 // which keeps the prerendered paint on screen rather than flashing it away.
@@ -22,4 +35,10 @@ if (import.meta.env.DEV) {
   render(() => <App />, root!);
 } else {
   hydrate(() => <App />, root!);
+}
+
+if (oldRouterSectionId) {
+  document
+    .getElementById(oldRouterSectionId)
+    ?.scrollIntoView({ behavior: 'instant', block: 'start' });
 }

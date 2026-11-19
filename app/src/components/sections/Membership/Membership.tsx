@@ -1,6 +1,5 @@
 import type { Component } from 'solid-js';
 import { For } from 'solid-js';
-import { A } from '@solidjs/router';
 
 const principles = [
   { name: 'Knowledge', description: 'Understanding through observation and rational analysis.' },
@@ -43,9 +42,9 @@ const Membership: Component = () => {
         </ul>
         <p>
           Before joining, we encourage you to review the{' '}
-          <A href="/about-humanism" noScroll>
+          <a href="#about-humanism">
             About Humanism
-          </A>{' '}
+          </a>{' '}
           section.
         </p>
       </div>
