@@ -10,7 +10,7 @@ export default defineConfig({
   // Safe here because the app uses HashRouter — the document path never
   // changes, only the fragment, so "./" always resolves against the same base.
   // Switching to BrowserRouter would break this: deep paths change what "./"
-  // resolves against, so base would have to become '/'. See doc/custom-domain.md.
+  // resolves against, so base would have to become '/'. See sh-brief-doc/README.md.
   base: './',
   plugins: [devtools(), solidPlugin()],
   server: {
