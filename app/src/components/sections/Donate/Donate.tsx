@@ -7,6 +7,8 @@ import DonationProgress from './DonationProgress';
 // Integration 1: a plain link to the Zeffy donation page, plus its QR code for
 // flyers and the sign-in table.
 // Integration 3: live progress toward the campaign's goal above them.
+// Yearly-donation version: the campaign offers only a yearly recurring gift,
+// so the section says the gift repeats each year until cancelled.
 const Donate: Component = () => {
   return (
     <section id="donate" class="section">
@@ -15,6 +17,11 @@ const Donate: Component = () => {
         <p>
           Stanislaus Humanists runs on its members and donors. Gifts pay for meeting
           space, events and outreach in the Central Valley.
+        </p>
+        <p>
+          Your gift is yearly: Zeffy charges it today and again on the same date
+          each year, until you cancel. You can change or cancel it any time from
+          the link in Zeffy's receipt email.
         </p>
         <DonationProgress />
         <div class={styles.donateOptions}>
