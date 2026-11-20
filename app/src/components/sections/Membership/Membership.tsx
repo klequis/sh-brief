@@ -2,6 +2,9 @@ import type { Component } from 'solid-js';
 import { For } from 'solid-js';
 import { A } from '@solidjs/router';
 
+import { zeffyMembership } from '../../../data/zeffyMembership';
+import ZeffyLinkAndQrCode from '../../ui/ZeffyLinkAndQrCode/ZeffyLinkAndQrCode';
+
 const principles = [
   { name: 'Knowledge', description: 'Understanding through observation and rational analysis.' },
   { name: 'Nature', description: 'Humans as part of natural evolutionary processes.' },
@@ -31,6 +34,13 @@ const Membership: Component = () => {
           newsletter), and access an exclusive discussion forum. Members may also
           serve on the Board.
         </p>
+        <ZeffyLinkAndQrCode
+          formUrl={zeffyMembership.membershipFormUrl}
+          qrCodeImageUrl={zeffyMembership.qrCodeImageUrl}
+          buttonLabel="Join on Zeffy"
+          qrCodeAlt="QR code that opens our Zeffy membership form"
+          handledByZeffy="Memberships"
+        />
         <h3>Our Seven Core Principles</h3>
         <ul>
           <For each={principles}>

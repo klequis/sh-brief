@@ -1,7 +1,7 @@
 import type { Component } from 'solid-js';
 
 import { zeffyCampaign } from '../../../data/zeffyCampaign';
-import styles from './Donate.module.css';
+import ZeffyLinkAndQrCode from '../../ui/ZeffyLinkAndQrCode/ZeffyLinkAndQrCode';
 import DonationProgress from './DonationProgress';
 
 // Integration 1: a plain link to the Zeffy donation page, plus its QR code for
@@ -17,31 +17,13 @@ const Donate: Component = () => {
           space, events and outreach in the Central Valley.
         </p>
         <DonationProgress />
-        <div class={styles.donateOptions}>
-          <a
-            class={styles.donateButton}
-            href={zeffyCampaign.donationFormUrl}
-            target="_blank"
-            rel="noopener"
-          >
-            Donate on Zeffy
-          </a>
-          <figure class={styles.qrCode}>
-            <img
-              src={zeffyCampaign.qrCodeImageUrl}
-              alt="QR code that opens our Zeffy donation page"
-              width="160"
-              height="160"
-              loading="lazy"
-            />
-            <figcaption>Or scan with your phone's camera</figcaption>
-          </figure>
-        </div>
-        <p class={styles.donateNote}>
-          Donations are handled by Zeffy, which opens in a new tab. Zeffy is free for
-          us; at checkout it asks you for an optional tip to Zeffy, which you can set
-          to $0.
-        </p>
+        <ZeffyLinkAndQrCode
+          formUrl={zeffyCampaign.donationFormUrl}
+          qrCodeImageUrl={zeffyCampaign.qrCodeImageUrl}
+          buttonLabel="Donate on Zeffy"
+          qrCodeAlt="QR code that opens our Zeffy donation page"
+          handledByZeffy="Donations"
+        />
       </div>
     </section>
   );
