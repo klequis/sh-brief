@@ -58,13 +58,16 @@ export const sectionLinks = [
   { label: 'About Us', href: '/about-us', id: 'about-us' },
   { label: 'About Humanism', href: '/about-humanism', id: 'about-humanism' },
   { label: 'Membership', href: '/membership', id: 'membership' },
-  { label: 'Donate', href: '/donate', id: 'donate' },
   { label: 'Contact', href: '/contact', id: 'contact' },
 ];
 
-// Donate is a button on the right of the header, not a pill in the menu, so it
-// reads as something to do rather than one more section to read.
-export const donateLink = sectionLinks.find((link) => link.id === 'donate')!;
+// This version of the site asks people to join, through the Zeffy membership
+// form, rather than to donate. The header's call-to-action button says "Join"
+// and scrolls to the Membership section. It's a button on the right of the
+// header, not a pill in the menu, so it reads as something to do rather than
+// one more section to read.
+const membershipLink = sectionLinks.find((link) => link.id === 'membership')!;
+export const headerButtonLink = { ...membershipLink, label: 'Join' };
 
-/** The pill menu in the header: every section except Donate. */
-export const navLinks = sectionLinks.filter((link) => link !== donateLink);
+/** The pill menu in the header: every section except the header button's. */
+export const navLinks = sectionLinks.filter((link) => link !== membershipLink);

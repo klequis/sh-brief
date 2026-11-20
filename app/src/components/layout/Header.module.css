@@ -85,12 +85,12 @@
 }
 
 /* Desktop: brand on the left, then the pills, then this button at the far
-   right. Filled and squared-off, like "Donate on Zeffy" in the Donate section,
-   so it reads as something to do rather than one more section. It goes to the
-   Donate section, not straight to Zeffy: a first-time donor sees what the money
-   is for there, and the Zeffy button is one click further. */
-.donateButton {
-  grid-area: donate;
+   right. Filled and squared-off, like "Join on Zeffy" in the Membership
+   section, so it reads as something to do rather than one more section. It
+   goes to the Membership section, not straight to Zeffy: a first-time member
+   sees what membership is there, and the Zeffy button is one click further. */
+.headerButton {
+  grid-area: headerButton;
   flex: none;
   padding: 9px 18px;
   border-radius: 6px;
@@ -102,8 +102,8 @@
   text-decoration: none;
 }
 
-.donateButton:hover,
-.donateButton:focus-visible {
+.headerButton:hover,
+.headerButton:focus-visible {
   background: var(--color-primary-hover);
   color: var(--color-text);
 }
@@ -151,18 +151,18 @@
 }
 
 /* Brand and nav stop fitting on one row somewhere under 1100px now that both
-   are bigger, so stack them: brand and Donate on top, the section pills
+   are bigger, so stack them: brand and the header button on top, the section pills
    beneath. Keep this breakpoint in sync with the --header-height
    override in tokens.css. */
 @media (max-width: 1100px) {
-  /* Brand and Donate share the top row, the pills get the row beneath. The
+  /* Brand and the header button share the top row, the pills get the row beneath. The
      button stays up top on purpose: if it wrapped with the pills it would be
      lost among them on a phone, which is where it matters most. */
   .inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     grid-template-areas:
-      'brand donate'
+      'brand headerButton'
       'nav nav';
     align-items: center;
     column-gap: 0.75rem;
@@ -182,7 +182,7 @@
     margin-inline-start: 0;
   }
 
-  .donateButton {
+  .headerButton {
     padding: 7px 14px;
     font-size: 15px;
   }
@@ -242,7 +242,7 @@
     font-size: 14px;
   }
 
-  .donateButton {
+  .headerButton {
     padding: 6px 12px;
     font-size: 14px;
   }

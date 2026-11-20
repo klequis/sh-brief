@@ -2,7 +2,7 @@ import type { Component } from 'solid-js';
 import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import { A } from '@solidjs/router';
 
-import { siteConfig, navLinks, sectionLinks, donateLink } from '../../data/site';
+import { siteConfig, navLinks, sectionLinks, headerButtonLink } from '../../data/site';
 import { createActiveSection } from '../../hooks/createActiveSection';
 import styles from './Header.module.css';
 
@@ -10,8 +10,8 @@ const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const Header: Component = () => {
-  // Every section, Donate included, so that while Donate is on screen no menu
-  // pill claims to be the current one.
+  // Every section, the header button's included, so that while that section
+  // is on screen no menu pill claims to be the current one.
   const activeId = createActiveSection(sectionLinks.map((link) => link.id));
 
   const [navWrapped, setNavWrapped] = createSignal(false);
@@ -117,11 +117,11 @@ const Header: Component = () => {
           </For>
         </nav>
         <A
-          href={donateLink.href}
+          href={headerButtonLink.href}
           noScroll
-          class={styles.donateButton}
+          class={styles.headerButton}
         >
-          {donateLink.label}
+          {headerButtonLink.label}
         </A>
       </div>
     </header>

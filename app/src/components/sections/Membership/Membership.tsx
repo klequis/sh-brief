@@ -22,11 +22,10 @@ const Membership: Component = () => {
         <h2>Membership</h2>
         <ul>
           <li>Individual: $24 / year</li>
-          <li>Couples: $36 / year</li>
+          <li>Family: $36 / year</li>
         </ul>
         <p>
-          Membership runs on a February 1 – January 31 cycle and is prorated for
-          mid-year enrollment.
+          Membership runs on a February 1 – January 31 cycle.
         </p>
         <p>
           Members may attend Board of Directors meetings, vote for Board members at
