@@ -4,6 +4,15 @@ Changes to the sh-brief repo (the Stanislaus Humanists website), newest first.
 Each entry is dated by when it reached `main`, which is when it went live.
 The log starts on 2026-11-19; for earlier changes, see `git log`.
 
+## 2026-11-19: contact email is welcome@stanislaus-humanists.org
+
+- The Contact section's email link and the organization's email in the
+  search-engine data now show `welcome@stanislaus-humanists.org`, replacing
+  `info@stanislaus-humanists.org`.
+- The same change is on every branch not yet merged into `main`, so it won't
+  be undone when they merge.
+- Commit: `cdb756f`.
+
 ## 2026-11-19: plain #section links instead of the hash router
 
 - Every link to a part of the page is now a plain `#section` link, and the
