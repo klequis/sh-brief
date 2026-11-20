@@ -1,6 +1,6 @@
 # Work in progress
 
-Last updated: 2026-11-14
+Last updated: 2026-11-19
 
 Two tracks, both started from the AHA *Humanist Organizer Playbook* (2026, Jake
 Via):
@@ -14,27 +14,43 @@ Via):
 
 ## Waiting on Carl
 
+- Front Porch Tune-up: pick the 8–10 real group sites for the hand trial
+  (decision 4 in `fabel-front-pourch-tune-up.md`).
 - Front Porch Tune-up: revise the "Why" line under "Any other item can be set
   aside" (TODO in the doc).
 - Front Porch Tune-up: decide whether to cite p.21 next to the "several aren't
   out to family or employers" example.
 - Push `redesign-01` and `redesign-02`, or keep them local? (Open questions)
-- Zeffy integration 1 (link and QR code): review it on
-  `feat/zeffy-integration_1` with the checklist
-  `sh-redesign/testing/2026-11-14-1631-zeffy-integration-1-link-and-qr.md`
-  (on that branch). Judge the placement, the QR code and the placeholder copy.
-  Remaining work: `~/P/sh-brief-doc/payment-system/zeffy-implementation/zeffy-integration-remaining-work.md`.
+- Zeffy, yearly-donation site (`feat/zeffy-integration_3_yearly-donation`,
+  https://feat-zeffy-integration-3-yearly-donation-sh-brief.klequis.workers.dev):
+  create a new Zeffy donation form with only **Yearly** turned on (steps in
+  the remaining-work doc below), then send Claude its link. Until then the
+  site points at "Test Campaign", which offers one-time and monthly gifts.
+- Zeffy, membership site (`feat/zeffy-integration_3_membership`,
+  https://feat-zeffy-integration-3-membership-sh-brief.klequis.workers.dev):
+  1. Say how long a membership lasts on the "Stanislaus Humanists
+     Membership" form in Zeffy: 365 days from joining, or ending every
+     January 31. The site still says "February 1 – January 31 cycle".
+  2. Run the checklist
+     `sh-redesign/testing/2026-11-19-1900-zeffy-integration-3-membership.md`
+     (on that branch).
+- Zeffy, both sites: confirm the wording, then pick one of the two sites and
+  say when to merge it into `main`. Remaining work:
+  `~/P/sh-brief-doc/payment-system/zeffy-implementation/zeffy-integration-remaining-work.md`.
 
 ## In progress
 
 - Site redesign: `redesign-03` is the current direction. Next is `redesign-04`
   (menu rename, "Your first visit" page). See section 1.
-- Front Porch Tune-up: design draft. Next is trying it by hand on 8–10 real
-  group sites. See section 2.
-- Zeffy integration: one branch per way of connecting the site to Zeffy
-  (`feat/zeffy-integration_1` link and QR code, built; `_2` embedded form and
-  `_3` live progress from the Zeffy API, not started). Next is `_2`, after
-  Carl's review of `_1`. See
+- Front Porch Tune-up: design draft, critiqued 2026-11-14. Next is the
+  11-step plan in `~/P/sh-brief-doc/front-porch-tune-up/fabel-front-pourch-tune-up.md`:
+  split the README into worksheet, design notes and tool spec; add the
+  Being found section; then the prompt pack and dry runs. See section 2.
+- Zeffy integration: two final example sites, both built on integration 3
+  (live totals from the Zeffy API) and both pushed with previews:
+  `feat/zeffy-integration_3_yearly-donation` (says **Donate**, a yearly gift
+  that repeats until cancelled) and `feat/zeffy-integration_3_membership`
+  (says **Join**, no Donate section). Waiting on Carl (above). See
   `~/P/sh-brief-doc/payment-system/zeffy-implementation/zeffy-integration-remaining-work.md`.
 
 ---
@@ -61,7 +77,8 @@ repeating the hero's event in the list works.
 2. Build the "Your first visit" page: what to wear, coming alone, what
    happens. It's the biggest gap the Tune-up finds in `redesign-03`.
 
-**Planning docs** (in `sh-redesign/`):
+**Planning docs** (moved 2026-11-14 to
+`~/P/sh-brief-doc/front-porch-tune-up/redesign/`):
 
 - `initial-redesign-ideas.md`: everything the playbook says about websites,
   ideas N1–N46, decisions, and Groups 1–3 (Group 1, above the fold, is done).
@@ -69,12 +86,22 @@ repeating the hero's event in the list works.
   involve.
 - `donation-platform-options.md`: choosing one donation platform (separate
   project).
-- `testing/`: one manual test checklist per round.
+- `testing/`: one manual test checklist per redesign round. (The Zeffy
+  checklists stay in `sh-redesign/testing/` on their own branches until those
+  branches are merged.)
 
 ## 2. Front Porch Tune-up
 
-**Doc:** [front-porch-tune-up/README.md](front-porch-tune-up/README.md), design
-draft.
+**Docs:** everything for the Tune-up and the redesign now lives in
+`~/P/sh-brief-doc/front-porch-tune-up/`:
+
+- [README.md](../sh-brief-doc/front-porch-tune-up/README.md): the Tune-up
+  design draft (sections, points, ratings).
+- [fabel-front-pourch-tune-up.md](../sh-brief-doc/front-porch-tune-up/fabel-front-pourch-tune-up.md):
+  2026-11-14 critique and the proposals for finishing it.
+- [jake-aha-website-recommendations.md](../sh-brief-doc/front-porch-tune-up/jake-aha-website-recommendations.md):
+  the playbook's website and SEO advice, summarized.
+- `redesign/`: the redesign planning docs and test checklists.
 
 **What's decided:**
 
@@ -92,14 +119,21 @@ draft.
 - Renaming the ratings. Current: *Getting started / Good / Better / Best*.
   Proposed: *Getting started / On your way / Almost there / Ready for visitors*.
 
+**Decided 2026-11-14** (details in `fabel-front-pourch-tune-up.md`): a third
+section, **Being found**, 20 points, total 120; every tune-up's next steps
+split into two lists, *Being found: clear, solid SEO recommendations* and
+*Other front porch improvements*; the prompt pack supports Claude, ChatGPT and
+Gemini; Jake is not considered for now.
+
 **Next:**
 
-1. Carl: revise the "Why" line under "Any other item can be set aside"
+1. Carl: pick the 8–10 real group sites for the hand trial.
+2. Carl: revise the "Why" line under "Any other item can be set aside"
    (marked with a TODO in the doc).
-2. Decide whether to cite p.21 next to the "several aren't out to family or
+3. Decide whether to cite p.21 next to the "several aren't out to family or
    employers" example.
-3. Try the tune-up by hand on 8–10 real humanist group sites, with a real
-   Stranger Test on three, then adjust the numbers.
+4. Claude: steps 2–5 of the plan (split the README, add Being found, write
+   check-it and fix-it lines, build the prompt pack), then dry runs with Carl.
 
 ## Open questions
 
