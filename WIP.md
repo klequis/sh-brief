@@ -1,6 +1,6 @@
 # Work in progress
 
-Last updated: 2026-11-19
+Last updated: 2026-11-22
 
 Two tracks, both started from the AHA *Humanist Organizer Playbook* (2026, Jake
 Via):
@@ -39,6 +39,8 @@ Via):
   `~/P/sh-brief-doc/payment-system/zeffy-implementation/zeffy-integration-remaining-work.md`.
 
 ## In progress
+
+- Stripe vs Zeffy comparison (WIP), in `~/P/sh-brief-doc/payment-system/payment-systems-comparison/`: `strip-vs-zeffy.md` is drafted, but its summary's Stripe example ($43.29 for 40 individual + 10 family) doesn't match its table ($44.04), and Stripe's +0.7% auto-renew fee isn't confirmed. Open questions are in `strip-vs-zeffy.notes-and-questions.md` (how to sell a membership at an event with Zeffy's Tap to Pay app, whether that app shows the tip prompt, whether Stripe can log cash and checks). `zeffy-docs-index.md` there is the Zeffy help center table of contents with links. Carl's raw notes from the Zeffy presentation are in `payment-system/zeffy-implementation/zeffy-carl-notes.md` (WIP).
 
 - Site redesign: `redesign-03` is the current direction. Next is `redesign-04`
   (menu rename, "Your first visit" page). See section 1.
